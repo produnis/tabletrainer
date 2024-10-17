@@ -1,0 +1,24 @@
+# Credits {.unnumbered}
+
+
+:::{layout-ncol=3 fig-env="figure*"}
+ 
+![@grSchlR](images/RBuch.png){width=60mm}
+
+![@grSchlRuebung](images/AngewandteUebungen.png){width=60mm}
+
+
+![@grSchlTrainingslageR](images/trainingslageR.png){width=60mm}
+:::
+
+\vfill
+
+Prof. Dr. Jörg große Schlarmann, BScN, MScN, RN
+
+Hochschule Niederrhein, Krefeld
+
+[joerg.grosseschlarmann@hs-niederrhein.de](mailto:joerg.grosseschlarmann@hs-niederrhein.de)
+
+<https://www.produnis.de/R>
+
+<https://www.github.com/produnis/datatable>

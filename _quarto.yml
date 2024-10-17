@@ -1,0 +1,77 @@
+project:
+  type: book
+  output-dir: BOOK
+  resources:
+    - data
+
+author:
+    - name: Prof. Dr. Jörg große Schlarmann
+      url: https://www.produnis.de/R
+      affiliation: Hochschule Niederrhein
+      affiliation-url: https://www.hs-niederrhein.de
+      orcid: 0000-0002-3634-7722
+
+citation:
+  type: book
+  title: "Table Trainer"
+  publisher: "Hochschule Niederrhein"
+  publisher-place: "Krefeld"
+  language: de
+  status: "advance online publication"
+  license: "CC BY-NC-SA 4.0"
+  url: https://github.com/produnis/datatable
+  public-url: https://www.produnis.de/datatable
+  fulltext-url: https://www.produnis.de/datatable
+
+book:
+  title: "Table Trainer"
+  subtitle: "Workouts für {data.table}"
+  language: de
+  author:
+    - name: Prof. Dr. Jörg große Schlarmann
+      url: https://www.produnis.de/R
+      affiliation: Hochschule Niederrhein
+      affiliation-url: https://www.hs-niederrhein.de
+      orcid: 0000-0002-3634-7722
+  date: "2024-10-16"
+  date-format: "DD.MM.YYYY"
+  cover-image: images/Titelbild.png
+  output-file: tabletrainer
+  sidebar:
+    collapse-level: 4
+  downloads:
+    - pdf
+    - epub
+  open-graph:
+    image: "https://www.produnis.de/datatable/images/Titelbild.jpg"
+    locale: de_DE
+  twitter-card:
+    image: "https://www.produnis.de/datatable/images/Titelbild.jpg"
+    creator: "produnis"
+  chapters:
+    - index.qmd
+    - einleitung.qmd
+    - part: "Aufgaben"
+      chapters:
+        - aufgaben.qmd
+    - part: "Lösungswege"
+      chapters:
+        - loesungen.qmd
+    - literatur.qmd
+    - credits.qmd
+
+bibliography: literatur.bib
+csl: apa-single-spaced.csl
+nocite: |
+  @waltherR22, @tidytuesday, @Rbase, @wickham23
+lang: de
+
+language:
+  crossref-sec-prefix: "Abschnitt"
+  crossref-chap-prefix: "Abschnitt"
+freeze: auto
+
+format:
+    buechlein-html: default
+    buechlein-epub: default
+    buechlein-pdf: default

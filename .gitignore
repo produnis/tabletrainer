@@ -1,0 +1,16 @@
+/.quarto/
+.Rproj.user
+*.aux
+*.toc
+*.tex
+*.log
+notizen.R
+.RData
+.Rhistory
+_freeze
+*_files/
+BOOK/*.html
+BOOK/images
+BOOK/site_libs
+BOOK/*json
+_src/

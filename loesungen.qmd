@@ -1,0 +1,34 @@
+# Lösungswege zu den Aufgaben für Einsteiger:innen {#sec-LoesungAnfang}
+
+::: {.callout-warning appearance="simple"}
+Gerade als Anfänger:in sollten Sie zumindest *versuchen*, die Aufgaben selbstständig zu lösen, bevor Sie sich die Lösungswege anschauen. Kopf hoch, Sie schaffen das!
+:::
+
+## Lösungen zu Objekten in R {#sec-LoesungenAnfangA}
+
+### Lösung zur Aufgabe [-@sec-AAA00] Taschenrechner {#sec-LAA00}
+::: {.callout-tip}
+## R als Taschenrechner
+
+```{r}
+#| label: LoesungAA00a
+# a)
+(15.4 + 0.2) * (7-10.2) / 9
+
+# b)
+5/10 + 11/7 - 8/3
+
+# c)
+(13+2)^3 * (17-8)^2 / 9
+
+# d)
+sqrt( ((1+3)*25) / (5*5-15)^2 )
+```
+
+:::
+
+
+
+
+
+

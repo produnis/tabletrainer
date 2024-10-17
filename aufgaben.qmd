@@ -1,0 +1,33 @@
+# Aufgaben für Einsteiger:innen {#sec-AufgabeAnfang}
+
+
+Schön, dass Sie Ihre R-Fähigkeiten überprüfen möchten. Bleiben Sie am Ball, Sie schaffen das!
+
+
+## Objekte in R {#sec-AufgabenAnfangA}
+
+In diesem Abschnitt üben Sie den Umgang mit `R`-Objekten wie Vektoren, Faktoren und Datenframes.
+
+
+### Aufgabe [-@sec-AAA00] Taschenrechner {#sec-AAA00}
+
+::: {.callout-note appearance="simple"}
+
+Nutzen Sie R als Taschenrechner und lösen Sie folgende Aufgaben:
+
+a) $(15,4 + 0,2) ⋅ (7 − 10,2) ∶ 9$
+
+b) $\frac{5}{10} + \frac{11}{7} - \frac{8}{3}$
+
+c) $(13 + 2)^3 \cdot (17 − 8)^2 ∶ 9$
+
+d) $\sqrt{\frac{(1+3)\cdot25}{(5\cdot5 -15)^2}}$
+
+:::
+
+::: {.callout-tip appearance="simple"}
+Lösung siehe @sec-LAA00
+:::
+
+
+

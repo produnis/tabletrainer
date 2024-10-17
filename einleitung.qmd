@@ -1,0 +1,32 @@
+# Einleitung {.unnumbered}
+
+::: {.callout}
+“You shouldn’t feel ashamed about your code - if it solves the problem, it’s perfect just the way it is. \newline But also, it could always be better.” \footnotesize — **Hadley Wickham** at `rstudio::conf2019`
+:::
+ 
+\smallskip\  
+
+\begin{wrapfigure}{r}{0.25\textwidth}
+  \begin{center}
+    \includegraphics[width=0.2\textwidth]{images/datatable-hexsticker.png}
+  \end{center}
+\end{wrapfigure}
+
+\Large 
+**Willkommen zum Table Training!**
+\normalsize
+
+<img src="images/datatable-hexsticker.png" width="200">
+
+In diesem Buch sind zahlreiche Übungen zur freien Statistiksoftware `R` enthalten, die vor allem für Studierende im Gesundheitswesen von Nutzen sein könnten. Für Ihre Lösungswege kann das freie Nachschlagewerk von @grSchlR hilfreich sein.
+
+Lassen Sie sich nicht entmutigen, `R` hat eine steile Lernkurve, und nur durch Übung kommen Sie weiter. Diese Sammlung möchte Sie auf Ihrem Weg begleiten und Sie befähigen, *typische* Aufgaben in `R` sicher zu meistern.
+
+Falls Sie nach diesen Übungen immer noch nicht genug haben, finden Sie weitere Aufgabenstellungen bei @grSchlRuebung.
+
+Der Quelltext dieses Buchs ist bei GitHub verfügbar, siehe <https://github.com/produnis/datatable>.
+
+
+- Eine aktuelle epub-Version finden Sie unter: \newline <https://www.produnis.de/datatable/datatable.epub>
+- Eine aktuelle PDF-Version finden Sie unter: \newline <https://www.produnis.de/datatable/datatable.pdf>
+- Kritik und Diskussion sind per Mastodon möglich: \newline <https://mastodon.social/@rbuch>
