@@ -1,6 +1,6 @@
 **Willkommen beim Table Training!**
 
-In diesem Buch sind zahlreiche Übungen zur freien Statistiksoftware `R` enthalten, die vor allem für Studierende im Gesundheitswesen von Nutzen sein könnten.
+In diesem Buch sind zahlreiche Übungen zur freien Statistiksoftware `R` enthalten, die sich ausschließlich mit dem Paket `{data.table}` befassen.
 
 \smallskip\  
 
@@ -30,7 +30,7 @@ Unter folgenden Bedingungen:
 ::: callout-tip
 ## **Zitationsvorschlag**
 
-große Schlarmann, J (2024): "trainingslageR. Ein Übungsbuch für R-Einsteiger\*innen und Fortgeschrittene", Hochschule Niederrhein, <https://github.com/produnis/tabletrainer>
+große Schlarmann, J (2024): "table traineR. Workouts für data.table", <https://github.com/produnis/tabletrainer>
 
 \scriptsize
 

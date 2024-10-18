@@ -1,0 +1,536 @@
+# Kurze Einführung in `{data.table}` {#sec-einfuehrung}
+
+Neben dem `tidyverse` steht mit `data.table` ein weiterer `R`-Dialekt zur Verfügung, der sich immer größerer Beliebtheit erfreut. Im Kern sind `data.tables` verbesserte Versionen von `data.frames`, die schneller und speichereffizienter arbeiten und mit einer prägnanteren Syntax manipuliert werden können. Das Paket stellt außerdem eine Reihe zusätzlicher Funktionen zum Lesen und Schreiben von tabellarischen Dateien, zum Umformen von Daten zwischen langen und breiten Formaten und zum Verbinden von Datensätzen zur Verfügung.
+
+## Installation
+Alle Funktionen sind über das Paket `data.table` implementiert, welches wie gewohnt installiert und aktiviert werden kann.
+
+```{r}
+#| label: data.table0
+#| eval: false
+# installiere data.table
+install.packages("data.table", dependencies=TRUE)
+```
+
+```{r}
+#| label: data.table0b
+# data.table aktivieren
+library(data.table)
+```
+
+
+## Modify-in-Place
+Der größte Unterschied besteht darin, dass `data.table` die *Modify-in-Place*-Methode verwendet. Das klassische `R` und auch das Tidyverse verwenden die *Copy-on-Modify*-Methode, welche besagt, dass bei der Manipulation eines Objektes das Ergebnis in einem neuen Objekt gespeichert wird.
+```{r}
+#| label: data.table01
+#| eval: false
+# klassisches "Copy-on-Modify"
+meine.daten %>% 
+  mutate(Neu = Alt*10)
+```
+Bei oben stehendem Code wird das Objekt `meine.daten` nicht verändert. Das Ergebnis der `mutate()`-Funktion  wird als neues Objekt ausgegeben. Dieses neue Objekt ist eine Kopie der Ursprungsdaten `meine.daten`, an welcher die Veränderungen vorgenommen werden.
+
+Mit `data.table` wird der Ansatz *Modify-in-Place* verfolgt. 
+```{r}
+#| label: data.table02
+#| eval: false
+# Modify-in-Place
+meine.daten[, Neu := Alt*10]
+```
+Der oben stehende Code erzeugt keine Kopie von `meine.daten`. Vielmehr wird das Objekt `meine.daten` **direkt** verändert. Im klassischen `R` entspricht diese Vorgehensweise dem Code
+```{r}
+#| label: data.table03
+#| eval: false
+meine.daten$Neu <- meine.daten$Alt*10
+```
+
+Durch *Modify-in-Place* wird `data.table` sehr effizient, wenn größere Datenmengen verarbeitet werden sollen. Es kann jedoch auch dazu führen, dass der Code schwieriger zu verstehen ist und überraschende Ergebnisse liefert (insbesondere, wenn ein `data.table` innerhalb einer Funktion modifiziert wird).
+
+
+## Grundlegende Syntax
+Die generelle Syntax von `data.table` lautet
+
+> `dt[i, j, by]`
+
+wobei
+
+- `dt` ein `data.table`-Objekt ist.
+- `i` zum Filtern und für join-Funktionen genutzt wird.
+- `j` zum Manipulieren, Transformieren und Zusammenfassen der Daten verwendet wird.
+- `by` zum Gruppieren genutzt wird.
+
+Man kann die Syntax lesen als: 
+
+> „In diesen Zeilen, mache dies, gruppiert nach jenem“. 
+
+## Daten einlesen
+Der erste Schritt der meisten Datenanalysen besteht darin, Daten in den Speicher zu laden. Wir können die Funktion `data.table::fread()` verwenden (das `f` steht für *fast* (schnell)), um reguläre, durch Trennzeichen getrennte Dateien wie `txt`- oder `csv`-Dateien zu lesen. Diese Funktion ist nicht nur schnell, sondern erkennt automatisch das Trennzeichen und errät die Klasse jeder Spalte sowie die Anzahl der Zeilen in der Datei.
+
+```{r}
+#| label: fread01
+# Daten einlesen mit fread()
+dt <- fread("data/Befragung22.csv")
+
+# anschauen
+str(dt)
+```
+Das Objekt `dt` gehört sowohl zur Klasse `data.frame` als auch zu der neuen Klasse `data.table`.
+
+Die Daten können auch direkt über eine URL eingelesen werden.
+```{r}
+#| label: fread02
+#| eval: false
+# lade per URL
+dt <- fread("https://www.produnis.de/tabletrainer/data/Befragung22.csv")
+```
+
+Liegen die Daten bereits als `data.frame` vor, können sie per `as.data.table()` umgewandelt werden.
+
+```{r}
+#| label: as.data.table01
+#| eval: false
+# lade klassisches Datenframe
+df <- read.table("https://www.produnis.de/tabletrainer/data/Datentabelle.txt", 
+                 header=TRUE)
+
+# wandle in data.table um
+dt2 <- as.data.table(df)
+```
+
+
+
+```{r}
+#| label: as.data.table02
+#| echo: false
+library(magrittr)
+# lade klassisches Datenframe
+df <- read.table("data/Datentabelle.txt", header = TRUE)
+
+# wandle in data.table um
+dt2 <- as.data.table(df)
+
+# anschauen
+str(dt2)
+```
+
+
+Sollen die Daten von Hand eingegeben werden, wird die Funktion `data.table()` verwendet.
+
+```{r}
+#| label: data.table-data.table
+# erzeuge von Hand
+dt3 <- data.table(x = 1:10,
+                  y = 11:20,
+                  z = factor(rep(c("foo", "bar"), 5))
+                  )
+
+# anschauen
+str(dt3)
+```
+
+## Daten speichern
+Mit der Funktion `fwrite()` können `data.tables` (aber auch `data.frames`) in eine Datei gespeichert werden. Sie funktioniert ähnlich wie `write.csv`, ist aber wesentlich schneller. Wird kein Dateiname angegeben, erfolgt die Ausgabe in der Konsole. So kann überprüft werden, was in die Datei geschrieben würde.
+```{r}
+#| label: data.table-fwrite
+# schreibe Objekt "dt2" in die Konsole
+fwrite(dt2)
+```
+
+
+```{r}
+#| label: data.table-fwrite2
+#| eval: false
+# schreibe Objekt "dt" in datei "dt.csv"
+fwrite(dt2, "dt2.csv")
+# schreibe Objekt "dt" in datei "dt.txt"
+fwrite(dt2, "dt2.txt")
+```
+
+
+## Fälle filtern mit `i`
+Wir erinnern uns, dass die allgemeine Syntax `dt[i, j, by]` lautet. Über den Parameter `i` können die Daten gefilter werden, so dass nur bestimmte Fälle berücksichtigt werden.
+Beispielsweise könnten wir im Objekt `dt` nur solche Fälle auswählen, bei denen das Alter größer als 30 ist.
+
+```{r}
+#| label: data.tableFilter01
+dt[alter > 30]
+```
+Dies ist Vergleichbar mit dem klassischen `R`-Aufruf
+```{r}
+#| label: data.tableFilter02
+# klassischer R-Befehl
+dt[dt$alter > 30]
+```
+
+Da alle Ausdrücke in `i` im Kontext der `data.table` ausgewertet werden, müssen wir den (eventuell sehr langen) Namen des Objektes nicht erneut eingeben. Dies ist vor allem bei längeren Ausdrücken sehr bequem. 
+
+```{r}
+#| label: data.tableFilter02b
+# erzeuge langen Objektnamen
+langer.Objekt.name <- dt
+```
+
+Der klassische `R`-Aufruf
+
+```{r}
+#| label: data.tableFilter03
+# klassischer R-Befehl
+langer.Objekt.name[langer.Objekt.name$alter > 25 & 
+                   langer.Objekt.name$geschlecht=="männlich" | 
+                   langer.Objekt.name$stifte > 30]
+```
+
+verkürzt sich auf
+
+```{r}
+#| label: data.tableFilter04
+langer.Objekt.name[alter > 25 & geschlecht=="männlich" | stifte > 30]
+```
+
+## Fälle sortieren mit `i`
+Dem Parameter `i` können auch Funktionen übergeben werden. So lassen sich die Daten beispielsweise über die `order()`-Funktion sortieren.
+
+```{r}
+#| label: data.tableiorder
+# nehme anderen (kürzeren) Datensatz  zur Demonstration
+dt2[order(Alter)]
+
+# absteigend
+dt2[order(Gewicht, decreasing = TRUE)]
+```
+
+## Daten verarbeiten mit `j`
+Nachdem der Datensatz mittels `i` eventuell vorsortiert und -gefiltert wurde, erfolgen die eigentlichen Operationen über den Parameter `j`. So können wir den Mittelwert des Alters der Probanden wie folgt bestimmen:
+```{r}
+#| label: data.tablej01
+# Mittelwert des Alters
+dt[, mean(alter)]
+
+# Mittelwert des Alters der Männer
+dt[geschlecht == "männlich", mean(alter)]
+```
+
+Innerhalb von `j` kann jede Funktion verwendet werden. So könnten wir überprüfen, ob die Variablen `fahrzeit` und `alter` miteinander korrelieren (ja, das ist quatsch).
+```{r}
+#| label: data.tablej02
+# korrelieren alter und fahrzeit? 
+dt[, cor(alter, fahrzeit)]
+```
+
+
+Es können auch mehrere Funktionen angewendet werden. Hierfür müssen diese per `list()` an den Parameter `j` übergeben werden. Auf diese Weise könnten wir Median, Mittelwert und Standardabweichung des Alters der Probanden bestimmen.
+```{r}
+#| label: data.tablej04
+# mehrere Funktionen per list()
+dt[, list(Median = median(alter),
+          Mittelw = mean(alter),
+          Stdabw = sd(alter))]
+```
+Da der Parameter `j` immer eine Liste erwartet, kann die Funktion `list()` mit einem Punkt abgekürzt werden.
+
+```{r}
+#| label: data.tablej05
+# geht auch mit "."
+dt[, .(Median = median(alter),
+       Mittelw = mean(alter),
+       Stdabw = sd(alter),
+       InterquA = IQR(alter))]
+```
+
+
+## Daten bearbeiten mit `j`
+Über den Parameter `j` können die Daten auch manipuliert werden, ähnlich wie bei der `mutate()`-Funktion des Tidyverse. Eine neue Variable kann über die Zeichenkette  `:=` definiert werden (dem so genannten *Walrus Operator* (Walross-Operator), der so heisst, weil die Zeichenfolge `:=` an die Stoßzähne eines Walrosses erinnert. Das Logo des `data.table`-Pakets zeigt eine Robbe, was zur humorvollen Verbindung beigetragen hat).
+
+Mit folgendem Aufruf erzeugen wir eine neue Variable `FahrzeitH`, welche die `fahrzeit` in Stunden beinhalten soll.
+```{r}
+#| label: data.tablej06
+# FahrzeitH in Stunden
+dt[, FahrzeitH := fahrzeit/60]
+
+# anzeigen
+str(dt)
+```
+
+
+So können wir auch mittels der `cut()`-Funktion die Daten klassieren, zum Beispiel das Alter:
+```{r}
+#| label: data.tableCut01
+dt[, alterK := cut(alter, breaks=c(0,20,25,30,40,50),
+                   ordered=TRUE)]
+
+# anzeigen
+str(dt)
+```
+
+
+Pro Aufruf kann der Walross-Operator nur einmal verwendet werden. Sollen mehrere Variablen verändert oder hinzugefügt werden, steht die `let()`-Funktion bereit. Innerhalb von `let()` werden wie gewohnt *einfache* Gleichheitszeichen verwendet. 
+
+```{r}
+#| label: data.table.let01
+# mehrere Manipulationen per let()
+dt[, let(geschlecht = factor(geschlecht),
+         geburtsort = factor(geburtsort),
+         podcast = factor(podcast, ordered=TRUE,
+                          levels=c("nie", "selten", "manchmal", 
+                                   "oft", "immer")))]
+# anzeigen
+str(dt)
+```
+
+Die Änderungen wurden direkt im Objekt `dt` gespeichert.
+
+
+## data.table kopieren
+Eine weitere wesentliche Eigenschaft von `data.table`-Objekten besteht darin, dass man sie gesondert kopieren muss. Wir eine `data.table` auf klassischem Wege in ein neues Objekt "kopiert", so erfolgt keine echte Kopie, sondern lediglich ein *symbolischer Link* auf das ursprüngliche Objekt.
+
+```{r}
+#| label: data.table-copy01
+# weise dt einem neuen Objekt zu
+neu <- dt
+
+str(neu)
+```
+
+Wir haben das Objekt `dt` nur *scheinbar* in das neue Objekt `neu` kopiert. Wenn wir Änderungen am Objekt `neu` vornehmen, so sind diese auch im Objekt `dt` präsent, weil eben **nicht** kopiert, sondern nur ein *Verweis* erstellt wurde.
+```{r}
+#| label: data.table-copy02
+# erstelle neue Variable in "neu"
+neu[, kuckuck := fahrzeit * stifte]
+
+# die neue Variable ist auch in "dt" enthalten
+str(dt)
+```
+
+
+
+
+::: {.callout-important appearance="simple"}
+Dies ist ein häufiger fataler Anfängerfehler, der zum Datenverlust führen kann!
+:::
+
+Um das Objekt tatsächlich zu kopieren, muss die Funktion `copy()` verwendet werden.
+```{r}
+#| label: data.table-copy03
+# kopieren dt2 nach neu2
+neu2 <- copy(dt2)
+
+# anzeigen
+str(neu2)
+
+# manipulieren
+neu2[, Kuckuck := Groesse/Gewicht]
+
+# dt2 ist unverändert
+str(dt2)
+```
+
+
+## pipen
+Innerhalb von `data.table` kann auch die Pipe verwendet werden. Wird die R-Base-Pipe `|>` verwendet, kann mittels Unterstrich `_` auf den weitergeleiteten Datenstrom zugegriffen werden. Bei der Tidyverse-Pipe (eigentlich von `magrittr`) mit der Zeichenfolge `%>%` muss ein Punkt `.` verwendet werden. 
+
+Folgende Aufrufe filtern das `geschlecht` und pipen den Datenstrom weiter. Anschließend wird nach `alter` sortiert.
+```{r}
+#| label: data.tablePipe1
+# Daten pipen mit R_Base
+dt2[Geschlecht=="m"] |>
+  _[order(Alter)]
+
+
+# Daten pipen mit magrittr
+dt2[Geschlecht=="m"] %>% 
+  .[order(Alter)]
+```
+
+Oder wir erstellen ein linerares Modell und pipen es an die `summary()`-Funktion weiter.
+```{r}
+#| label: data.tablePipe2
+dt2[, lm(Gewicht ~ Groesse)] |>
+  summary()
+```
+Wir können den Ausdruck aber auch direkt in die `summary()`-Funktion schreiben.
+```{r}
+#| label: data.tablePipe3
+summary(dt2[, lm(Gewicht ~ Groesse)])
+```
+
+
+
+
+## Ergebnisse gruppieren mit `by`
+Über den Paramter `by` können die Ergebnisse gruppiert werden.
+```{r}
+#| label: data.tableBY01
+# gruppiert nach Geschlecht
+dt[, .(Median = median(alter),
+       Mittelw = mean(alter),
+       Stdabw = sd(alter)), 
+   by = geschlecht]
+
+```
+
+Die Ausgabe kann gepipet und weiterverarbeitet werden. In folgendem Beispiel berechnen wir den Variationskoeffizienten ($sd / \bar x$) aus den gruppierten Ergebnissen.
+```{r}
+#| label: data.tableBY02
+
+dt[, .(Median = median(alter),
+       Mittelw = mean(alter),
+       Stdabw = sd(alter)), 
+     by = geschlecht] |>
+  # berechnen
+  _[, VK := Stdabw / Mittelw] |>
+  # anzeigen
+  _[]
+```
+
+
+Bitte beachten Sie, dass wir in diesem Beispiel die Anzeige der Endergebnisse mittels `|> _[]` erzwingen mussten. Dies ist notwendig, wenn per `by` gruppierte Ergebnisse weiter manipuliert werden sollen. `Data.table` speichert Änderungen durch `:=` immer direkt im Objekt, wobei keine Ausgabe der Daten erfolgt. Im vorliegenden Fall von `VK := Stdabw / Mittelw` ist diese Speicherung jedoch nicht möglich (ausgegeben wird ja eh nichts), da sich das Endergebnis nicht mehr auf das ursprüngliche Objekt 
+`dt` bezieht. 
+In diesem Fall ist es (sogar) möglich und üblich, das Ergebnis wie gewohnt in einem neuen Objekt zu *speichern*, ohne dass dabei ein symbolischer Link angelegt wird.
+
+```{r}
+#| label: data.tableBY03
+neu3 <- dt[, .(Median = median(alter),
+               Mittelw = mean(alter),
+               Stdabw = sd(alter)), 
+            by = geschlecht] |>
+  _[, VK := Stdabw / Mittelw] |>
+  _[]
+
+# anzeigen
+neu3
+```
+
+Wir können den letzten Pipevorgang abkürzen, indem wir einfach eckige Klammern `[]` an unseren Aufruf anhängen.
+```{r}
+#| label: data.tableBY04
+neu4 <- dt[, .(Median = median(alter),
+               Mittelw = mean(alter),
+               Stdabw = sd(alter)), 
+            by = geschlecht] |>
+  _[, VK := Stdabw / Mittelw][]
+
+# anzeigen
+neu4
+
+```
+
+## Weitere Funktionen aus dem `data.table` Paket
+Das Paket `data.table` bringt zahlreiche eigene Funktionen mit, um typische Aufgabenstellungen effizienter bearbeiten zu können.
+
+### Einzigartige bestimmen mit `uniqueN` 
+Um zum Beispiel die Anzahl verschiedener Städte innerhalb der Variable `geburtsort` zu bestimmen, können wir auf die paketeigene Funktion `uniqueN()` zurückgreifen:
+```{r}
+#| label: data.tableFunktioen01
+# wieviele unterschiedliche Städte sind in "geburtsort"?
+dt[, uniqueN(geburtsort)]
+
+```
+
+
+### Anzahl der Fälle mit `.N`
+Mit der Funktion `.N` kann die Anzahl der Fälle ermittelt werden.
+
+```{r}
+#| label: data.tableFunktioen02
+dt[, .(Anzahl = .N),
+       by = geschlecht]
+```
+
+Mit Hilfe von `nrow()` können so prozentuale Anteile berechnet werden.
+
+```{r}
+#| label: data.tableFunktioen02b
+dt[, .(Anzahl = .N,
+       Prozent = .N/nrow(dt)*100),
+       by = alterK]
+```
+
+Die Ergebnisse können an `ggplot()` weitergereicht werden.
+```{r}
+#| label: data.tableFunktioen03
+# ggplot
+library(ggplot2)
+
+dt[, .(Anzahl = .N,
+       Prozent = .N/nrow(dt)*100),
+       by = alterK] |>
+  ggplot(aes(x=alterK, y=Prozent)) +
+  geom_col(color="black", fill="orchid")
+```
+
+
+### Lange Tabelle erzeugen mit `melt()` 
+Mit der Funktion melt() können breite Tabellen in lange (tidy) umgewandelt werden, ähnlich wie mit `dplyr::pivot_longer()`. 
+Zur Demonstration verwenden wir die Pflegetabelle von Isfort [-@isfort18]
+```{r}
+#| label: data.table-melt00a
+#| eval: false
+# lade Testdaten 
+load("https://www.produnis.de/tabletrainer/data/Pflegeberufe.RData")
+```
+
+```{r}
+#| label: data.table-melt00b
+#| echo: false
+# lade Testdaten 
+load("data/Pflegeberufe.RData")
+
+# anschauen
+Pflegeberufe
+```
+Die Tabelle ist nicht *tidy* und liegt im breiten Format vor. Ausserdem ist sie von der Klasse `matrix`.
+
+```{r}
+#| label: data.table-melt01
+# wandle um in data.table
+pf <- as.data.table(Pflegeberufe, keep.rownames = "Berufsgruppe")
+
+# anzeigen
+pf
+```
+
+Mittels `melt()` transformieren wir `pf` in eine lange (tidy) Tabelle. Dabei übergeben wir dem Parameter
+
+- `id.vars` alle Variabelen, welche "Identifikatoren" beinhalten. Damit sind alle Spalten gemeint, die keine konkrekten Messwerte enhalten, sondern weitere *bezeichnende* Kennwerte. Klassischer Weise sind dies vor allem die **Zeilen**namen, in unserem Falle also `Berufsgruppe`. Es können mehrere `id.vars` mittels `c()` aneinandergereiht werden.
+- `measure.vars` alle Spalten, welche die eigentlichen Messwerte enthalten, in unserem Falle 1999:2015 (alles außer `Berufsgruppe`). Wird dieser Parameter leer gelassen, nimmt `data.table` automatisch alle Spalten, die keine `id.vars` sind.
+- `variable.name` den Name der neuen Spalte, in welche die Bezeichnungen der `measure.vars` überführt werden sollen, in unserem Fall `Jahr`.
+- `value.name` den Name der neuen Spalte, in welche die Werte der `measure.vars` überführt werden sollen, in unserem Fall `Anzahl`.
+
+Da wir alle Spalten außer Berufsgruppe *melten* wollen, kann der Parameter `measure.vars` weggelassen werden.
+
+```{r}
+#| label: data.table-melt02
+# pf mit melt() tidy machen
+pf_tidy <- melt(pf, id.vars = "Berufsgruppe", 
+                variable.name = "Jahr", 
+                value.name = "Anzahl")
+
+# anschauen
+head(pf_tidy)
+```
+
+### Breite Tabelle erzeugen mit `dcast()`
+
+Mittels `dcast()` können lange Tabellen wieder in breite Tabellen transformiert werden, so wie bei `dplyr::pivot_wider()`.
+
+Der Aufruf folgt der Semantik:
+
+> `dcast(Bezeichner ~ Spaltenname, value.var = "Wertename")`
+
+wobei
+
+- `Bezeichner` die Spalten der `id.vars` meint.
+- `Spaltenname` die Spalte mit der `variable.name` meint.
+- `value.var` den Namen der Spalte meint, welche die konkreten Messwerte enthält. Diese muss in Anführungszeichen angegeben werden. Wird dieser Parameter weggelassen, versucht `data.table` die korrekte Spalte zu erraten (was einfach ist, wenn nur noch eine Spalte übrig bleibt).
+
+```{r}
+#| label: data.table-dcast01
+# wandle pf_tdiy mit dcast() in breite Tabelle
+pf_wide <- dcast(pf_tidy, Berufsgruppe ~ Jahr, 
+                          value.var = "Anzahl")
+
+
+# anschauen
+head(pf_wide)
+```
+

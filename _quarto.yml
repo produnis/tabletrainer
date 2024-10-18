@@ -54,6 +54,7 @@ book:
   chapters:
     - index.qmd
     - einleitung.qmd
+    - datatable.qmd
     - part: "Aufgaben"
       chapters:
         - aufgaben.qmd
