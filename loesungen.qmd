@@ -1,3 +1,12 @@
+---
+description: "Lösungswege zu den Übungsaufgaben für das data.table Paket"
+format:
+  html:
+    include-in-header: "vgwort/loesungen.html"
+    #aliases: 
+    #- Kapitel-Tidyverse.html
+---
+
 # Lösungswege zu den Aufgaben für Einsteiger:innen {#sec-LoesungAnfang}
 
 ::: {.callout-warning appearance="simple"}

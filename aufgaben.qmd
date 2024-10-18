@@ -1,3 +1,12 @@
+---
+description: "Übungsaufgaben für das data.table Paket"
+format:
+  html:
+    include-in-header: "vgwort/aufgaben.html"
+    #aliases: 
+    #- Kapitel-Tidyverse.html
+---
+
 # Aufgaben für Einsteiger:innen {#sec-AufgabeAnfang}
 
 
