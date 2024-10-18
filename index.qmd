@@ -42,7 +42,7 @@ große Schlarmann, J (2024): "trainingslageR. Ein Übungsbuch für R-Einsteiger\
     publisher = {Hochschule Niederrhein},
     address = {Krefeld},
     copyright = {CC BY-NC-SA 4.0},
-    url = {github.com/produnis/trainingslager},
+    url = {github.com/produnis/tabletrainer},
     language = {de},
 }
 ```
