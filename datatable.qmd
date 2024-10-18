@@ -1,3 +1,12 @@
+---
+description: "Eine leicht verständliche Einführung in data.table"
+format:
+  html:
+    include-in-header: "vgwort/datatable.html"
+    #aliases: 
+    #- Kapitel-Tidyverse.html
+---
+
 # Kurze Einführung in `{data.table}` {#sec-einfuehrung}
 
 Neben dem `tidyverse` steht mit `data.table` ein weiterer `R`-Dialekt zur Verfügung, der sich immer größerer Beliebtheit erfreut. Im Kern sind `data.tables` verbesserte Versionen von `data.frames`, die schneller und speichereffizienter arbeiten und mit einer prägnanteren Syntax manipuliert werden können. Das Paket stellt außerdem eine Reihe zusätzlicher Funktionen zum Lesen und Schreiben von tabellarischen Dateien, zum Umformen von Daten zwischen langen und breiten Formaten und zum Verbinden von Datensätzen zur Verfügung.
