@@ -30,19 +30,19 @@ Unter folgenden Bedingungen:
 ::: callout-tip
 ## **Zitationsvorschlag**
 
-große Schlarmann, J (2024): "table traineR. Workouts für data.table", <https://github.com/produnis/tabletrainer>
+große Schlarmann, J (2024): "table traineR. Workouts für {data.table}", <https://www.produnis.de/tabletrainer/>
 
 \scriptsize
 
 ``` bibtex
-@book{grSchl_exeRueb,
+@book{grSchl_tabletraineR,
     author = {{große Schlarmann}, Jörg},
-    title = {{table traineR}. Workouts für data.table},
+    title = {{table traineR}. Workouts für \{data.table\}},
     year = {2024},
     publisher = {Hochschule Niederrhein},
     address = {Krefeld},
     copyright = {CC BY-NC-SA 4.0},
-    url = {github.com/produnis/tabletrainer},
+    url = {https://www.produnis.de/tabletrainer/},
     language = {de},
 }
 ```

@@ -469,7 +469,7 @@ dt[, .(Anzahl = .N,
 
 
 ### Lange Tabelle erzeugen mit `melt()` 
-Mit der Funktion melt() können breite Tabellen in lange (tidy) umgewandelt werden, ähnlich wie mit `dplyr::pivot_longer()`. 
+Mit der Funktion `melt()` können breite Tabellen in lange (tidy) umgewandelt werden, ähnlich wie mit `dplyr::pivot_longer()`. 
 Zur Demonstration verwenden wir die Pflegetabelle von Isfort [-@isfort18]
 ```{r}
 #| label: data.table-melt00a
