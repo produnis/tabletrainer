@@ -13,7 +13,7 @@ author:
 
 citation:
   type: book
-  title: "Table Trainer"
+  title: "table traineR"
   publisher: "Hochschule Niederrhein"
   publisher-place: "Krefeld"
   language: de
@@ -24,7 +24,7 @@ citation:
   fulltext-url: https://www.produnis.de/tabletrainer
 
 book:
-  title: "Table Trainer"
+  title: "table traineR"
   subtitle: "Workouts für {data.table}"
   language: de
   author:
@@ -37,9 +37,9 @@ book:
   date-format: "DD.MM.YYYY"
   cover-image: images/Titelbild.jpg
   favicon: images/favicon.ico
-  output-file: tabletrainer
+  output-file: tabletraineR
   description:  |
-    Dieses Buch
+    In diesem Buch sind zahlreiche Übungen zur freien Statistiksoftware R enthalten, die sich ausschließlich mit dem Paket {data.table} befassen.
   sidebar:
     collapse-level: 4
   downloads:
