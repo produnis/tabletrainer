@@ -30,7 +30,7 @@ Unter folgenden Bedingungen:
 ::: callout-tip
 ## **Zitationsvorschlag**
 
-große Schlarmann, J (2024): "trainingslageR. Ein Übungsbuch für R-Einsteiger\*innen und Fortgeschrittene", Hochschule Niederrhein, <https://github.com/produnis/trainingslager>
+große Schlarmann, J (2024): "trainingslageR. Ein Übungsbuch für R-Einsteiger\*innen und Fortgeschrittene", Hochschule Niederrhein, <https://github.com/produnis/tabletrainer>
 
 \scriptsize
 

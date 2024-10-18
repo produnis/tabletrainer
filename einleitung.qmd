@@ -24,9 +24,9 @@ Lassen Sie sich nicht entmutigen, `R` hat eine steile Lernkurve, und nur durch �
 
 Falls Sie nach diesen Übungen immer noch nicht genug haben, finden Sie weitere Aufgabenstellungen bei @grSchlRuebung.
 
-Der Quelltext dieses Buchs ist bei GitHub verfügbar, siehe <https://github.com/produnis/datatable>.
+Der Quelltext dieses Buchs ist bei GitHub verfügbar, siehe <https://github.com/produnis/tabletrainer>.
 
 
-- Eine aktuelle epub-Version finden Sie unter: \newline <https://www.produnis.de/datatable/datatable.epub>
-- Eine aktuelle PDF-Version finden Sie unter: \newline <https://www.produnis.de/datatable/datatable.pdf>
+- Eine aktuelle epub-Version finden Sie unter: \newline <https://www.produnis.de/tabletrainer/tabletrainer.epub>
+- Eine aktuelle PDF-Version finden Sie unter: \newline <https://www.produnis.de/tabletrainer/tabletrainer.pdf>
 - Kritik und Diskussion sind per Mastodon möglich: \newline <https://mastodon.social/@rbuch>
