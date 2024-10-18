@@ -19,9 +19,9 @@ citation:
   language: de
   status: "advance online publication"
   license: "CC BY-NC-SA 4.0"
-  url: https://github.com/produnis/datatable
-  public-url: https://www.produnis.de/datatable
-  fulltext-url: https://www.produnis.de/datatable
+  url: https://github.com/produnis/tabletrainer
+  public-url: https://www.produnis.de/tabletrainer
+  fulltext-url: https://www.produnis.de/tabletrainer
 
 book:
   title: "Table Trainer"
@@ -36,17 +36,20 @@ book:
   date: "2024-10-16"
   date-format: "DD.MM.YYYY"
   cover-image: images/Titelbild.png
+  favicon: images/favicon.ico
   output-file: tabletrainer
+  description:  |
+    Dieses Buch
   sidebar:
     collapse-level: 4
   downloads:
     - pdf
     - epub
   open-graph:
-    image: "https://www.produnis.de/datatable/images/Titelbild.jpg"
+    image: "https://www.produnis.de/tabletrainer/images/Titelbild.jpg"
     locale: de_DE
   twitter-card:
-    image: "https://www.produnis.de/datatable/images/Titelbild.jpg"
+    image: "https://www.produnis.de/tabletrainer/images/Titelbild.jpg"
     creator: "produnis"
   chapters:
     - index.qmd

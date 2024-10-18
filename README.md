@@ -3,7 +3,7 @@
 <img src="https://i.imgur.com/Tu5jarn.png" width="200">
 
 
-Ein freies Übungsbuch für R-Einsteiger*innen und Fortgeschrittene.
+Ein freies Übungsbuch für das R-Paket {data.table}
 
 **Dieses Buch befindet sich noch in der Erstellung und ist daher noch nicht fertig!!!**
 
@@ -18,7 +18,7 @@ Ein freies Übungsbuch für R-Einsteiger*innen und Fortgeschrittene.
 
 ## How To
 
-Das Buch ist mit `quarto` erstellt worden, siehe <https://quarto.org>. Wenn Sie RStudio installiert haben, können Sie das Projekt über die Datei `_trainingslageR.Rproj` laden und das Buch rendern.
+Das Buch ist mit `quarto` erstellt worden, siehe <https://quarto.org>. Wenn Sie RStudio installiert haben, können Sie das Projekt über die Datei `0_tabletrainer.Rproj` laden und das Buch rendern.
 
 Eine fertig gerenderte EPUB- und PDF-Datei steht im Unterornder `BOOK` zur Verfügung.
 
