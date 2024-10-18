@@ -1,7 +1,7 @@
 ---
 description: "Eine leicht verständliche Einführung in data.table"
 format:
-  html:
+  buechlein-html:
     include-in-header: "vgwort/datatable.html"
     #aliases: 
     #- Kapitel-Tidyverse.html

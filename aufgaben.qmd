@@ -1,7 +1,7 @@
 ---
 description: "Übungsaufgaben für das data.table Paket"
 format:
-  html:
+  buechlein-html:
     include-in-header: "vgwort/aufgaben.html"
     #aliases: 
     #- Kapitel-Tidyverse.html
