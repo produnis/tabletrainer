@@ -22,6 +22,7 @@ Das Buch ist mit `quarto` erstellt worden, siehe <https://quarto.org>. Wenn Sie 
 
 Eine fertig gerenderte EPUB- und PDF-Datei steht im Unterornder `BOOK` zur Verfügung.
 
+Eine Live-Version finden Sie unter <https://www.produnis.de/tabletrainer/>.
 
 ## siehe auch
 

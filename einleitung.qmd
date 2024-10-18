@@ -25,6 +25,6 @@ Lassen Sie sich nicht entmutigen, `R` hat eine steile Lernkurve, und nur durch �
 Der Quelltext dieses Buchs ist bei GitHub verfügbar, siehe <https://github.com/produnis/tabletrainer>.
 
 
-- Eine aktuelle epub-Version finden Sie unter: \newline <https://www.produnis.de/tabletrainer/tabletrainer.epub>
-- Eine aktuelle PDF-Version finden Sie unter: \newline <https://www.produnis.de/tabletrainer/tabletrainer.pdf>
+- Eine aktuelle epub-Version finden Sie unter: \newline <https://www.produnis.de/tabletrainer/tabletraineR.epub>
+- Eine aktuelle PDF-Version finden Sie unter: \newline <https://www.produnis.de/tabletrainer/tabletraineR.pdf>
 - Kritik und Diskussion sind per Mastodon möglich: \newline <https://mastodon.social/@rbuch>
