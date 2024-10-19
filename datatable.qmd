@@ -7,7 +7,15 @@ format:
     #- Kapitel-Tidyverse.html
 ---
 
+\begin{wrapfigure}{r}{0.25\textwidth}
+  \begin{center}
+    \includegraphics[width=0.2\textwidth]{images/datatable-logo.png}
+  \end{center}
+\end{wrapfigure}
+
 # Kurze Einführung in `{data.table}` {#sec-einfuehrung}
+
+<img class="float-right" src="images/datatable-logo.png" width="200">
 
 Neben dem `tidyverse` steht mit `data.table` ein weiterer `R`-Dialekt zur Verfügung, der sich immer größerer Beliebtheit erfreut. Im Kern sind `data.tables` verbesserte Versionen von `data.frames`, die schneller und speichereffizienter arbeiten und mit einer prägnanteren Syntax manipuliert werden können. Das Paket stellt außerdem eine Reihe zusätzlicher Funktionen zum Lesen und Schreiben von tabellarischen Dateien, zum Umformen von Daten zwischen langen und breiten Formaten und zum Verbinden von Datensätzen zur Verfügung.
 

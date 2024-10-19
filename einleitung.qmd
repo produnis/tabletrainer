@@ -16,7 +16,7 @@
 **Willkommen zum Table Training!**
 \normalsize
 
-<img src="images/datatable-hexsticker.png" width="200">
+<img class="float-right"  src="images/datatable-hexsticker.png" width="200">
 
 In diesem Buch sind zahlreiche Übungen zur freien Statistiksoftware `R` enthalten, die sich ausschließlich mit dem Paket `{data.table}` befassen. Für Ihre Lösungswege kann das freie Nachschlagewerk von @grSchlR hilfreich sein.
 
