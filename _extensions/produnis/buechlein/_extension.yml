@@ -27,6 +27,9 @@ contributes:
       df-print: default
       code-line-numbers: false
       keep-tex: false # true # false
+      execute:
+        error: true
+        warning: false
       csl: apa-single-spaced.csl
       include-in-header: in-header.tex   # header
       template-partials:
@@ -35,6 +38,10 @@ contributes:
     html:
       lang: de
       rights: "Creative Commons BY-NC-SA 4.0"
+      code-line-numbers: false
+      execute:
+        error: true
+        warning: false
       theme:
         light: [yeti, buechlein.scss]
         dark: [darkly, buechlein.scss]
@@ -42,5 +49,8 @@ contributes:
       toc: true
       rights: "Creative Commons BY-NC-SA 4.0"
       code-line-numbers: false
+      execute:
+        error: true
+        warning: false
       lang: de
       theme: [buechlein.scss]

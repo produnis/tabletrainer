@@ -7,35 +7,86 @@ format:
     #- Kapitel-Tidyverse.html
 ---
 
-# Aufgaben für Einsteiger:innen {#sec-AufgabeAnfang}
+# Aufgaben {#sec-AufgabeAnfang}
 
 
-Schön, dass Sie Ihre R-Fähigkeiten überprüfen möchten. Bleiben Sie am Ball, Sie schaffen das!
+Schön, dass Sie Ihre `data.table` überprüfen und festigen möchten. Bleiben Sie am Ball, Sie schaffen das!
 
-
-## Objekte in R {#sec-AufgabenAnfangA}
-
-In diesem Abschnitt üben Sie den Umgang mit `R`-Objekten wie Vektoren, Faktoren und Datenframes.
-
-
-### Aufgabe [-@sec-AAA00] Taschenrechner {#sec-AAA00}
+## Aufgabe [-@sec-AAA00] Größe und Gewicht {#sec-AAA00}
 
 ::: {.callout-note appearance="simple"}
+Von 10 Personen wurden folgende Körpergrößen in Meter gemessen:
 
-Nutzen Sie R als Taschenrechner und lösen Sie folgende Aufgaben:
+              1,68   1,87   1,95   1,74   1,80
+              1,75   1,59   1,77   1,82   1,74
 
-a) $(15,4 + 0,2) ⋅ (7 − 10,2) ∶ 9$
+... sowie folgende Gewichte in Gramm:
 
-b) $\frac{5}{10} + \frac{11}{7} - \frac{8}{3}$
+              78500  110100  97500   69200   82500
+              71500   81500  87200   75500   65500
 
-c) $(13 + 2)^3 \cdot (17 − 8)^2 ∶ 9$
-
-d) $\sqrt{\frac{(1+3)\cdot25}{(5\cdot5 -15)^2}}$
+a) Überführen Sie die Daten in eine `data.table` mit den Variablen `Groesse` und `Gewicht`.
+b) Rechnen Sie das Gewicht um in Kilogramm, und speichern Sie Ihr Ergebnis in der neuen Variable `Kilogramm`.
+c) Lassen Sie die Daten von Proband 4, 7 und 9 ausgeben.
+d) Lassen Sie die Daten der Probanden ausgeben, deren Gewicht größer ist als 80kg.
+e) Lassen Sie die Daten der Probanden ausgeben, die größer als 1,7m sind und leichter als 85kg.
 
 :::
 
 ::: {.callout-tip appearance="simple"}
 Lösung siehe @sec-LAA00
+:::
+
+\smallskip\  
+
+\newpage
+
+
+
+## Aufgabe [-@sec-AAA01] Datentabelle {#sec-AAA01}
+
+::: {.callout-note appearance="simple"}
+Von 6 Probanden wurde der Cholesterolspiegel in mg/dl gemessen.
+
+| Name                | Geschlecht | Gewicht | Größe | Cholesterol |
+|---------------------|:------:|:------:|:------:|:------:|
+| Anna Tomie          | W      | 85     | 179    | 182         |
+| Bud Zillus          | M      | 115    | 173    | 232         |
+| Dieter Mietenplage  | M      | 79     | 181    | 191         |
+| Hella Scheinwerfer  | W      | 60     | 170    | 200         |
+| Inge Danken         | W      | 57     | 158    | 148         |
+| Jason Zufall        | M      | 96     | 174    | 249         |
+
+
+a) Übertragen Sie die Daten in eine `data.table` mit dem Namen `chol`.
+b) Erstellen Sie eine neue Variable `Alter`, die zwischen `Name` und `Geschlecht` liegt und folgende Daten beinhaltet:
+
+| Name                | Alter |
+|---------------------|:---:|
+| Anna Tomie          | 18 |
+| Bud Zillus          | 32 |
+| Dieter Mietenplage  | 24 |
+| Hella Scheinwerfer  | 35 |
+| Inge Danken         | 46 |
+| Jason Zufall        | 68 |
+
+c) Fügen Sie einen weiteren Fall mit folgenden Daten dem Datenframe hinzu
+
+| Name  | Alter | Geschlecht | Gewicht | Größe | Cholesterol |
+|-------|:---:|:---:|:---:|:---:|:---:|
+| Mitch Mackes | 44 | M | 92 | 178 | 220 |
+
+d) Erzeugen Sie eine neue Variable `BMI` ($\text{BMI}=\frac{kg}{m^2}$).
+e) Fügen Sie die Variable `Adipositas` hinzu, in welcher Sie die `BMI`-Werte wie folgt klassieren:
+    - weniger als 18,5 $\rightarrow\ $ Untergewicht
+    - zwischen 18,5 und 24.5 $\rightarrow\ $ Normalgewicht
+    - zwischen 24,5 und 30 $\rightarrow\ $ Übergewicht
+    - größer als 30 $\rightarrow\ $ Adipositas
+f) Filtern Sie Ihren Datensatz, so dass Sie einen neuen Datensatz `male` erhalten, welcher nur die Daten der Männer beinhaltet.
+:::
+
+::: {.callout-tip appearance="simple"}
+Lösung siehe @sec-LAA01
 :::
 
 

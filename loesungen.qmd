@@ -7,31 +7,227 @@ format:
     #- Kapitel-Tidyverse.html
 ---
 
-# Lösungswege zu den Aufgaben für Einsteiger:innen {#sec-LoesungAnfang}
+# Lösungswege {#sec-LoesungAnfang}
 
 ::: {.callout-warning appearance="simple"}
 Gerade als Anfänger:in sollten Sie zumindest *versuchen*, die Aufgaben selbstständig zu lösen, bevor Sie sich die Lösungswege anschauen. Kopf hoch, Sie schaffen das!
 :::
 
-## Lösungen zu Objekten in R {#sec-LoesungenAnfangA}
-
-### Lösung zur Aufgabe [-@sec-AAA00] Taschenrechner {#sec-LAA00}
+## Lösung zur Aufgabe [-@sec-AAA00] Größe und Gewicht {#sec-LAA00}
 ::: {.callout-tip}
-## R als Taschenrechner
+## a) Überführen Sie die Daten in eine `data.table` mit den Variablen `Groesse` und `Gewicht`.
 
 ```{r}
 #| label: LoesungAA00a
-# a)
-(15.4 + 0.2) * (7-10.2) / 9
+# Paket aktivieren
+library(data.table)
 
-# b)
-5/10 + 11/7 - 8/3
+# Überführe in eine data.table
+dt <- data.table(Groesse = c(1.68, 1.87, 1.95, 1.74, 1.80, 1.75, 1.59, 
+                             1.77, 1.82, 1.74),
+                 Gewicht = c(78500, 110100, 97500, 69200, 82500, 71500, 
+                             81500, 87200, 75500, 65500)
+)
 
-# c)
-(13+2)^3 * (17-8)^2 / 9
+# anzeigen
+dt
+```
 
-# d)
-sqrt( ((1+3)*25) / (5*5-15)^2 )
+:::
+
+\smallskip\  
+
+::: {.callout-tip}
+## b) Rechnen Sie das Gewicht um in Kilogramm, und speichern Sie Ihr Ergebnis in der neuen Variable `Kilogramm`
+
+```{r}
+#| label: LoesungAA00b
+# Umrechnen in Kilogramm
+dt[, Kilogramm := Gewicht / 1000]
+
+# anzeigen
+dt
+```
+
+:::
+
+\smallskip\  
+
+::: {.callout-tip}
+## c) Lassen Sie die Daten von Proband 4, 7 und 9 ausgeben
+
+```{r}
+#| label: LoesungAA00c
+# Ausgabe der Daten von Proband 4, 7 und 9
+dt[c(4, 7, 9)]
+```
+
+:::
+
+\smallskip\  
+
+::: {.callout-tip}
+## d) Lassen Sie die Daten der Probanden ausgeben, deren Gewicht größer ist als 80kg
+
+```{r}
+#| label: LoesungAA00d
+dt[Kilogramm > 80]
+```
+
+:::
+
+\smallskip\  
+
+::: {.callout-tip}
+## e) Lassen Sie die Daten der Probanden ausgeben, die größer als 1,7m sind und leichter als 85kg
+
+```{r}
+#| label: LoesungAA00e
+dt[Groesse > 1.7 & Kilogramm < 85]
+```
+
+:::
+
+
+
+
+
+\smallskip\  
+
+
+## Lösung zur Aufgabe [-@sec-AAA01] Datentabelle {#sec-LAA01}
+::: {.callout-tip}
+## a) Übertragen Sie die Daten in eine `data.table` mit dem Namen `chol`.
+
+```{r}
+#| label: LoesungAA01a
+# übertrage die Daten
+chol <- data.table(Name = c("Anna Tomie", "Bud Zillus", "Dieter Mietenplage", 
+                            "Hella Scheinwerfer", "Inge Danken", "Jason Zufall"),
+                   Geschlecht = c("W", "M", "M", "W", "W", "M"),
+                   Gewicht = c(85, 115, 79, 60, 57, 96),
+                   Größe = c(179, 173, 181, 170, 158, 174),
+                   Cholesterol = c(182, 232, 191, 200, 148, 249)
+)
+# anzeigen
+chol
+```
+
+:::
+
+\smallskip\  
+
+::: {.callout-tip}
+## b) Erstellen Sie eine neue Variable `Alter`, die zwischen `Name` und `Geschlecht` liegt
+
+```{r}
+#| label: LoesungAA01b
+
+# Alter der Probanden
+alter <- c(18, 32, 24, 35, 46, 68)
+
+# Neue Spalte 'Alter' 
+chol[, Alter := alter]
+
+# Spalte 'Alter' zwischen `Name` und `Geschlecht`
+setcolorder(chol, c("Name", "Alter", "Geschlecht", "Gewicht", 
+                    "Größe", "Cholesterol"))
+
+# Ausgabe der data.table
+chol
+```
+
+:::
+
+\smallskip\  
+
+::: {.callout-tip}
+## c) Fügen Sie einen weiteren Fall mit folgenden Daten dem Datenframe hinzu
+
+```{r}
+#| label: LoesungAA01c
+# Neuer Fall
+neu <- data.table(Name = "Mitch Mackes",
+                  Alter = 44,
+                  Geschlecht = "M",
+                  Gewicht = 92,
+                  Größe = 178,
+                  Cholesterol = 220
+)
+
+# mit rbind zusammenbringen
+chol <- rbind(chol, neu)
+
+# anzeigen
+chol
+
+```
+
+:::
+
+\smallskip\  
+
+::: {.callout-tip}
+## d) Erzeugen Sie eine neue Variable `BMI`.
+
+```{r}
+#| label: LoesungAA01d
+# BMI berechnen
+chol[, BMI := Gewicht / (Größe / 100)^2]
+
+# anzeigen
+chol
+
+```
+
+:::
+
+\smallskip\  
+
+::: {.callout-tip}
+## e) Fügen Sie die Variable `Adipositas` hinzu, in welcher Sie die `BMI`-Werte wie folgt klassieren
+
+Hierzu können wir entweder die `fifelse()`-Funktion nutzen...
+
+```{r}
+#| label: LoesungAA01e1
+# Klassifizieren mit fifelse
+chol[, Adipositas := fifelse(BMI < 18.5, "Untergewicht",
+                     fifelse(BMI >= 18.5 & BMI < 24.5, "Normalgewicht",
+                     fifelse(BMI >= 24.5 & BMI <= 30, "Übergewicht", "Adipositas")))]
+
+# anzeigen
+chol
+```
+
+
+...oder mittels `cut()`.
+
+```{r}
+#| label: LoesungAA01e2
+# Klassifizieren mit cut()
+chol[, Adipositas := cut(BMI, 
+                         breaks = c(-Inf, 18.5, 24.5, 30, Inf), 
+                         labels = c("Untergewicht", "Normalgewicht", 
+                                    "Übergewicht", "Adipositas"))]
+# anzeigen
+chol
+```
+
+:::
+
+\smallskip\  
+
+::: {.callout-tip}
+## f) Filtern Sie Ihren Datensatz, so dass Sie einen neuen Datensatz `male` erhalten, welcher nur die Daten der Männer beinhaltet.
+
+
+```{r}
+#| label: LoesungAA01f
+male <- chol[Geschlecht == "M"]
+
+# anzeigen
+male
 ```
 
 :::
