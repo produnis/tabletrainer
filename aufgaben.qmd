@@ -98,7 +98,7 @@ Lösung siehe @sec-LAA01
 ## Aufgabe [-@sec-AAA02] Big Five {#sec-AAA02}
 
 ::: {.callout-note appearance="simple"}
-`{data.table}` ist vor allem bei großen Datensätzen beliebt, da es schneller ist als *herkömmliches* `R`. Die Datei `big_five_scores.csv` enthält Daten von 307.313 Probanden aus 236 Ländern zu den *Big Five* der Persönlichkeitspsychologie, siehe <https://de.wikipedia.org/wiki/Big_Five_(Psychologie)>. Die Datei liegt als ZIP-Paket unter <https://www.produnis.de/tabletrainer/big_five.zip>. Laden Sie die ZIP Datei herunter, und entpacken Sie `big_five_scores.csv` in Ihren Projektordner (bzw. dort in den `data`-Ordner).
+`{data.table}` ist vor allem bei großen Datensätzen beliebt, da es schneller ist als *herkömmliches* `R`. Die Datei `big_five_scores.csv` enthält Daten von 307.313 Probanden aus 236 Ländern zu den *Big Five* der Persönlichkeitspsychologie, siehe <https://de.wikipedia.org/wiki/Big_Five_(Psychologie)>. Die Datei liegt als ZIP-Paket unter <https://www.produnis.de/tabletrainer/data/big_five.zip>. Laden Sie die ZIP Datei herunter, und entpacken Sie `big_five_scores.csv` in Ihren Projektordner (bzw. dort in den `data`-Ordner).
 
 ::: {.callout-warning appearance="default"}
 ## Der Datensatz beinhaltet folgende Variablen
@@ -127,6 +127,31 @@ c) Passen Sie das Skalenniveau der Variablen an.
 Lösung siehe @sec-LAA02
 :::
 
+
+\smallskip\  
+
+
+
+## Aufgabe [-@sec-AAA03] Rolling Stone Magazine {#sec-AAA03}
+
+::: {.callout-note appearance="simple"}
+Die Datei `rolling_stone.csv` enthält die *500 Greatest Albums of All Time* Listen des Rolling Stone Magazines aus den Jahren 2003, 2012 und 2020. Der Datensatz stammt aus dem *Tidy Tuesday* Projekt [-@tidytuesday] vom [07.05.2024](https://github.com/rfordatascience/tidytuesday/blob/master/data/2024/2024-05-07/readme.md) und kann auch unter <https://www.produnis.de/tabletrainer/data/rolling_stone.csv> herutergeladen werden.
+
+a) Laden Sie die Datei `rolling_stone.csv`  als `data.table` in Ihre `R`-Session und machen Sie sich mit dem Datensatz vertraut.
+b) Passen Sie das Skalenniveau der Variablen an.
+c) Welche sind die Nummer 1 Alben der Jahre 2003, 2012 und 2020?
+d) Ist Ihre Lieblingsband in der Liste?
+e) Welche weiblichen Bands haben mehr als 3 Mitglieder?
+f) Welche Band hat die meisten Alben im Datensatz?
+g) Prüfen Sie per Korrelationsverfahren, ob die Beliebtheit bei Spotify (`spotify_popularity`) mit der Liste von 2020 übereinstimmt.
+h) Welchen durchschnittlichen Rang erzielen Alben des Genres "`Electronic`" in den Jahren 2003, 2012 und 2020?
+i) Berechnen Sie das arithmetische Mittel und den Median des Albenrankings für jedes Genre im Jahr 2020. Wieviele Alben sind pro Genre enthalten? Sortieren Sie die Ausgabe einmal absteigend nach dem Median, und einmal aufsteigend nach `genre`.
+j) Der Datensatz liegt als `wide.table` vor, da das Ranking für 2003, 2012 und 2020 als Variablen nebeneinander stehen. Wandeln Sie den Datensatz in eine `long.table` (Tidy Data) um, so dass die Rankingangaben in den Variablen `Rang` und `Rangjahr` angegeben sind.
+:::
+
+::: {.callout-tip appearance="simple"}
+Lösung siehe @sec-LAA03
+:::
 
 \smallskip\  
 

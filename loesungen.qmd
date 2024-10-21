@@ -400,5 +400,228 @@ str(big5)
 
 :::
 
+\smallskip\  
+
+
+## Lösung zur Aufgabe [-@sec-AAA03] Rolling Stone Magazine {#sec-LAA03}
+
+:::: {.callout-tip}
+# a) Laden Sie die Datei `rolling_stone.csv`  als `data.table` in Ihre `R`-Session und machen Sie sich mit dem Datensatz vertraut.
+```{r}
+#| label: LoesungAA03SETUP
+#| echo: false
+rs <- fread("data/rolling_stone.csv")
+
+```
+
+```{r}
+#| label: LoesungAA03a
+#| eval: false
+# falls schon gedownloadet
+rs <- fread("data/rolling_stone.csv")
+
+# per URL einlesen
+rs <- fread("https://www.produnis.de/tabletrainer/data/rolling_stone.csv")
+```
+
+
+```{r}
+#| label: LoesungAA03a2
+# anschauen
+str(rs)
+```
+
+::::
+
+
+\smallskip\  
+
+
+:::: {.callout-tip}
+# b) Passen Sie das Skalenniveau der Variablen an.
+
+Es gibt einige kategoriale Variablen im Datensatz.
+
+```{r}
+#| label: LoesungAA03b
+rs[, let(sort_name = factor(sort_name),
+         clean_name = factor(clean_name),
+         album = factor(album),
+         genre = factor(genre),
+         tpye  = factor(type),
+         artist_gender  = factor(artist_gender),
+         album_id  = factor(album_id),
+         spotify_url  = factor(spotify_url)
+        )]
+
+# anschauen
+str(rs)
+```
+::::
+
+\smallskip\  
+
+:::: {.callout-tip}
+# c) Welche sind die Nummer 1 Alben der Jahre 2003, 2012 und 2020?
+
+
+```{r}
+#| label: LoesungAA03c
+rs[rank_2003 == 1 | rank_2012 == 1 | rank_2020 == 1,
+  .(clean_name, album, rank_2003, rank_2012, rank_2020)
+]
+```
+::::
+
+\smallskip\  
+
+
+:::: {.callout-tip}
+# d) Ist Ihre Lieblingsband in der Liste?
+
+Angenommen, meine Lieblingsband sei *Faith No More*.
+```{r}
+#| label: LoesungAA03d
+rs[clean_name == "Faith No More"]
+```
+Die ist leider nicht enthalten. Versuchen wir es mit *Eminem*.
+
+```{r}
+#| label: LoesungAA03d2
+rs[clean_name == "Eminem", .(clean_name, album)]
+```
+
+::::
+
+\smallskip\  
+
+
+
+
+:::: {.callout-tip}
+# e) Welche weiblichen Bands haben mehr als 3 Mitglieder?
+
+```{r}
+#| label: LoesungAA03e
+rs[artist_gender == "Female" & artist_member_count > 3, .(sort_name, clean_name)]
+```
+
+
+::::
+
+\smallskip\  
+
+
+
+:::: {.callout-tip}
+# f) Welche Band hat die meisten Alben im Datensatz?
+
+```{r}
+#| label: LoesungAA03f
+# zähle die Bands und sortiere absteigend
+# und zeige nur die ersten 5 Reihen an
+rs[, .N, by = clean_name] |> 
+  _[order(-N)][1:5]
+```
+Bob Dylan und The Beatles haben jeweils 11 Alben in den Listen
+
+::::
+
+\smallskip\  
+
+
+
+
+:::: {.callout-tip}
+# g) Prüfen Sie per Korrelationsverfahren, ob die Beliebtheit bei Spotify (`spotify_popularity`) mit der Liste von 2020 übereinstimmt.
+
+```{r}
+#| label: LoesungAA03g
+# Achtung, es sind NAs enthalten
+rs[, cor(spotify_popularity, rank_2020, use="complete.obs")]
+```
+
+Es gibt einen geringen negativen Zusammenhang. Da beim Ranking ein *geringer* Wert für ein *gutes* Ranking steht, ist es auch nicht verwunderlich, dass der Zusammenhang negativ ist. Bei Spotify bedeutet ein *hoher* Wert ein gutes Ranking. Dennoch ist der Zusammenhang eher schwach.
+::::
+
+\smallskip\  
+
+
+
+
+:::: {.callout-tip}
+# h) Welchen durchschnittlichen Rang erzielen Alben des Genres "`Electronic`" in den Jahren 2003, 2012 und 2020?
+
+```{r}
+#| label: LoesungAA03h
+# Achtung, es sind NAs enthalten
+rs[genre == "Electronic", .(d2003 = mean(rank_2003, na.rm=TRUE),
+                            d2012 = mean(rank_2012, na.rm=TRUE),
+                            d2020 = mean(rank_2020, na.rm=TRUE)
+                           )]
+```
+
+::::
+
+\smallskip\  
+
+
+
+:::: {.callout-tip}
+# i) Berechnen Sie das arithmetische Mittel und den Median des Albenrankings für jedes Genre im Jahr 2020. Wieviele Alben sind pro Genre enthalten?
+
+```{r}
+#| label: LoesungAA03i
+# Achtung, es sind NAs enthalten
+rs[, .(mean = mean(rank_2020, na.rm=TRUE),
+       median = as.numeric(median(rank_2020, na.rm=TRUE)),
+       N = sum(!is.na(rank_2020))), by = genre] 
+```
+
+Haben Sie den Eintrag `Blues/Blues ROck` bemerkt? Es ist ein Tippfehler im Datensatz enthalten.
+
+```{r}
+#| label: LoesungAA03i2
+# korrigiere den Tippfehler
+rs[genre == "Blues/Blues ROck", genre := "Blues/Blues Rock"]
+```
+
+Jetzt sortieren wir wie gewünscht einmal absteigend nach dem Median, und einmal aufsteigend nach `genre`.
+
+```{r}
+#| label: LoesungAA03i3
+# sortiert nach Median
+rs[, .(mean = mean(rank_2020, na.rm=TRUE),
+       median = as.numeric(median(rank_2020, na.rm=TRUE)),
+       N = sum(!is.na(rank_2020))), by = genre] |> 
+  _[order(median, decreasing = TRUE)]
+
+# sortiert nach Genre
+rs[, .(mean = mean(rank_2020, na.rm=TRUE),
+       median = as.numeric(median(rank_2020, na.rm=TRUE)),
+       N = sum(!is.na(rank_2020))), by = genre] |> 
+  _[order(genre)]
+```
+
+::::
+
+\smallskip\  
+
+
+
+:::: {.callout-tip}
+# j) Der Datensatz liegt als `wide.table` vor, da das Ranking für 2003, 2012 und 2020 als Variablen nebeneinander stehen. Wandeln Sie den Datensatz in eine `long.table` (Tidy Data) um, so dass die Rankingangaben in den Variablen `Rang` und `Rangjahr` angegeben sind.
+
+```{r}
+#| label: LoesungAA03j
+# long table mit melt()
+long_rs <- melt(rs, 
+                measure.vars = c("rank_2003", "rank_2012", "rank_2020"),
+                variable.name = "Rangjahr",
+                value.name = "Rang")
+# anzeigen
+head(long_rs)
+```
+::::
 
 \smallskip\  
