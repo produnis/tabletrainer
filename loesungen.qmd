@@ -610,10 +610,50 @@ rs[, .(mean = mean(rank_2020, na.rm=TRUE),
 
 
 :::: {.callout-tip}
-# j) Der Datensatz liegt als `wide.table` vor, da das Ranking für 2003, 2012 und 2020 als Variablen nebeneinander stehen. Wandeln Sie den Datensatz in eine `long.table` (Tidy Data) um, so dass die Rankingangaben in den Variablen `Rang` und `Rangjahr` angegeben sind.
+# j) Wieviele Bands sind in jeder der 3 Listen vertreten, wieviele Alben sind in jeder der 3 Listen vertreten, welche Alben ist in jeder der 3 Listen auf dem selben Platz, welche haben sich kontinuierlich verbessert, welche kontinuierlich verschlechtert?
 
 ```{r}
 #| label: LoesungAA03j
+# Anzahl der Bands, die in jeder der 3 Listen sind
+rs[!is.na(rank_2003) & !is.na(rank_2012) & !is.na(rank_2020), 
+   uniqueN(clean_name)]
+
+# Anzahl der Alben, die in jeder der 3 Listen sind
+rs[!is.na(rank_2003) & !is.na(rank_2012) & !is.na(rank_2020), 
+   uniqueN(album)]
+
+# Alben mit dem selben Ranking
+rs[rank_2003 == rank_2012 & rank_2012 == rank_2020, 
+   .(clean_name, album, rank_2003, rank_2012, rank_2020)]  
+
+# Alben, die sich kontinuierlich verbessert haben
+# (verbessert heisst, dass das Ranking kleiner wird)
+rs[rank_2003 > rank_2012 & rank_2012 > rank_2020, 
+   .(clean_name, album, rank_2003, rank_2012, rank_2020)] |>
+  _[order(clean_name)] |>
+  # zeige nur die ersten 10, um hier Platz zu sparen
+  head(10)
+
+# Alben, die sich kontinuierlich verschlechtert haben
+# (verschlechtert heisst, dass das Ranking größer wird)
+rs[rank_2003 < rank_2012 & rank_2012 < rank_2020, 
+   .(clean_name, album, rank_2003, rank_2012, rank_2020)] |>
+  _[order(clean_name)] |>
+  # zeige nur die ersten 10, um hier Platz zu sparen
+  head(10)
+
+```
+::::
+
+\smallskip\  
+
+
+
+:::: {.callout-tip}
+# k) Der Datensatz liegt als `wide.table` vor, da das Ranking für 2003, 2012 und 2020 als Variablen nebeneinander stehen. Wandeln Sie den Datensatz in eine `long.table` (Tidy Data) um, so dass die Rankingangaben in den Variablen `Rang` und `Rangjahr` angegeben sind.
+
+```{r}
+#| label: LoesungAA03k
 # long table mit melt()
 long_rs <- melt(rs, 
                 measure.vars = c("rank_2003", "rank_2012", "rank_2020"),

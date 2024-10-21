@@ -146,7 +146,8 @@ f) Welche Band hat die meisten Alben im Datensatz?
 g) Prüfen Sie per Korrelationsverfahren, ob die Beliebtheit bei Spotify (`spotify_popularity`) mit der Liste von 2020 übereinstimmt.
 h) Welchen durchschnittlichen Rang erzielen Alben des Genres "`Electronic`" in den Jahren 2003, 2012 und 2020?
 i) Berechnen Sie das arithmetische Mittel und den Median des Albenrankings für jedes Genre im Jahr 2020. Wieviele Alben sind pro Genre enthalten? Sortieren Sie die Ausgabe einmal absteigend nach dem Median, und einmal aufsteigend nach `genre`.
-j) Der Datensatz liegt als `wide.table` vor, da das Ranking für 2003, 2012 und 2020 als Variablen nebeneinander stehen. Wandeln Sie den Datensatz in eine `long.table` (Tidy Data) um, so dass die Rankingangaben in den Variablen `Rang` und `Rangjahr` angegeben sind.
+j) Wieviele Bands sind in jeder der 3 Listen vertreten, wieviele Alben sind in jeder der 3 Listen vertreten, welche Alben ist in jeder der 3 Listen auf dem selben Platz, welche haben sich kontinuierlich verbessert, welche kontinuierlich verschlechtert?
+k) Der Datensatz liegt als `wide.table` vor, da das Ranking für 2003, 2012 und 2020 als Variablen nebeneinander stehen. Wandeln Sie den Datensatz in eine `long.table` (Tidy Data) um, so dass die Rankingangaben in den Variablen `Rang` und `Rangjahr` angegeben sind.
 :::
 
 ::: {.callout-tip appearance="simple"}
