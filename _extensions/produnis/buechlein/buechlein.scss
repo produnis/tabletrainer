@@ -2,9 +2,6 @@
 
 /*-- scss:rules --*/
 
-img.quarto-cover-image {
-  box-shadow: 0 .5rem 1rem rgba(0,0,0,.15);
-}
 
 .float-left{
   float: left;
@@ -16,6 +13,57 @@ img.quarto-cover-image {
   margin-left: 20px;
 }
 
+
+/*-------------------------------------*/
+/*   Titelbild hat leichten Schatten   */
+/*-------------------------------------*/
+
+img.quarto-cover-image {
+  box-shadow: 0 .5rem 1rem rgba(0,0,0,.15);
+}
+
+/*--------------------------------------*/
+
+
+
+/*--------------------------------------*/
+/* Code ist zu klein in Callout-Chunks  */
+/*--------------------------------------*/
+
 pre code {
   font-size: 1.1em;
 }
+/*--------------------------------------*/
+
+
+
+/*----------------------------------------------*/
+/* Buchstaben-Aufzählungen mit Klammer-zu a) b) */
+/*----------------------------------------------*/
+
+ol[type="a"] {
+    counter-reset: list;
+    list-style: none;
+    padding-left: 1em;
+}
+
+ol[type="a"] > li {
+    list-style: none;
+    position: relative;
+    padding-left: 1.5em;
+}
+
+ol[type="a"] > li:before {
+    content: counter(list, lower-alpha) ") ";
+    counter-increment: list;
+    position: absolute;
+    left: 0;
+    text-align: right;
+}
+/*-----------------------------------------------------*/
+
+
+
+
+/*-----------------------------------------------------*/
+/*---------END OF FILE --------------------------------*/
