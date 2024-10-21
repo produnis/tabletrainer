@@ -90,6 +90,29 @@ dt[Groesse > 1.7 & Kilogramm < 85]
 
 
 
+\smallskip\  
+
+::: {.callout-tip}
+## f) Speichern Sie Ihr `data.table`-Objekt in die Datei `groegew.csv`. Lassen Sie sich dabei zunächst anzeigen, was in die Datei geschrieben werden wird.
+
+```{r}
+#| label: LoesungAA00f
+# zeige, was in die Datei gespeichert würde
+fwrite(dt)
+```
+
+```{r}
+#| label: LoesungAA00fb
+#| eval: false
+# speichere in Datei groegew.csv
+fwrite(dt, "groegew.csv")
+
+```
+
+:::
+
+
+
 
 
 \smallskip\  
@@ -234,6 +257,148 @@ male
 
 
 
+\smallskip\  
+
+::: {.callout-tip}
+## g) Speichern Sie die Objekte `chol` und `male` als Textdatei auf Ihre Festplatte. Lassen Sie sich dabei jeweils zuvor anzeigen, welcher Inhalt in die Textdatei geschrieben werden wird.
+
+
+```{r}
+#| label: LoesungAA01g
+# zeige, was in chol.txt gespeichert würde
+fwrite(chol)
+
+# zeige, was in male.txt gespeichert würde
+fwrite(male)
+```
+
+```{r}
+#| label: LoesungAA01g2
+#| eval: false
+# speichere in Datei chol.txt
+fwrite(chol, "chol.txt")
+
+
+# speichere in Datei male.txt
+fwrite(male, "male.txt")
+```
+
+:::
 
 
 
+
+
+\smallskip\  
+
+
+## Lösung zur Aufgabe [-@sec-AAA02] Big Five {#sec-LAA02}
+```{r}
+#| label: LoesungAA02aSETUP
+#| echo: false
+big5 <- fread(cmd = 'unzip -p data/big_five.zip big_five_scores.csv')
+```
+
+
+:::: {.callout-tip}
+## a) Lesen Sie den Datensatz  `big_five_scores.csv` als `data.table` in Ihre `R`-Session.
+
+Zunächst laden wir die Datei von  <https://www.produnis.de/tabletrainer/big_five.zip> herunter und legen sie im `data`-Ordner (siehe @sec-Vorbereitungen) ab.
+
+Wenn Sie dies bereits getan haben und die Datei `big_five_scores.csv` bereits entpackt ist, lautet der Befehl zum Einlesen der Daten:
+```{r}
+#| label: LoesungAA02aDefault
+#| eval: false
+# lese Daten ein
+big5 <- fread("data/big_five_scores.csv")
+```
+
+Wir können die Datei aber auch direkt in `R` herunterladen und entpacken.
+
+```{r}
+#| label: LoesungAA02aDownload
+#| eval: false
+# File herunterladen und im "data" Ordner speichern
+download.file("https://www.produnis.de/tabletrainer/data/big_five.zip", 
+              destfile = "data/testbig_five.zip")
+
+# entpacken in temporäres Verzeichnis
+unzip("data/big_five.zip", 
+      files = "big_five_scores.csv", 
+      exdir = tempdir())
+
+# speichere Pfad auf temporäre Datei
+pfad <- file.path(tempdir(), "big_five_scores.csv")
+```
+
+Der Befehl zum Einlesen aus der temporären Datei lautet
+```{r}
+#| label: LoesungAA02aTempEinlesen
+#| eval: false
+fread(pfad)
+```
+
+
+::: {.callout-caution appearance="minimal"}
+
+Falls Sie das `unzip` Programm auf Ihrem PC installiert haben, können Sie direkt auf das ZIP-Paket zugreifen
+```{r}
+#| label: LoesungAA02aUnzip
+#| eval: false
+fread(cmd = 'unzip -p data/big_five.zip big_five_scores.csv')
+```
+
+Wenn das ZIP-Paket nur eine Datei enthält, muss dessen Dateiname nicht extra angegeben werden.
+```{r}
+#| label: LoesungAA02aUnzip2
+#| eval: false
+fread(cmd = 'unzip -p data/big_five.zip')
+```
+
+:::
+
+Mit dem Datensatz vertraut machen:
+```{r}
+#| label: LoesungAA02astr
+str(big5)
+```
+
+::::
+
+\smallskip\  
+
+
+:::: {.callout-tip}
+## b) Ändern Sie die Geschlechtskodierung, so dass `männlich` und `weiblich` verwendet werden.
+
+```{r}
+#| label: LoesungAA02b
+# Ändere die Geschlechtskodierung
+big5[, sex := fifelse(sex == 1, "männlich", "weiblich")]
+
+str(big5)
+```
+
+:::
+
+
+\smallskip\  
+
+:::: {.callout-tip}
+## c) Passen Sie das Skalenniveau der Variablen an.
+
+```{r}
+#| label: LoesungAA02c
+# case_id und country sind nominale Variablen
+big5[, let(case_id = factor(case_id),
+           country = factor(country),
+           sex     = factor(sex)
+          )]
+
+str(big5)
+```
+
+:::
+
+
+\smallskip\  
