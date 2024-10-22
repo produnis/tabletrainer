@@ -10,7 +10,7 @@ format:
 # Aufgaben {#sec-AufgabeAnfang}
 
 
-Schön, dass Sie Ihre `data.table` überprüfen und festigen möchten. Bleiben Sie am Ball, Sie schaffen das!
+Schön, dass Sie Ihre `data.table`-Fähigkeiten überprüfen und festigen möchten. Bleiben Sie am Ball, Sie schaffen das!
 
 ## Aufgabe [-@sec-AAA00] Größe und Gewicht {#sec-AAA00}
 
@@ -129,7 +129,7 @@ Lösung siehe @sec-LAA02
 
 
 \smallskip\  
-
+\newpage
 
 
 ## Aufgabe [-@sec-AAA03] Rolling Stone Magazine {#sec-AAA03}
@@ -147,7 +147,9 @@ g) Prüfen Sie per Korrelationsverfahren, ob die Beliebtheit bei Spotify (`spoti
 h) Welchen durchschnittlichen Rang erzielen Alben des Genres "`Electronic`" in den Jahren 2003, 2012 und 2020?
 i) Berechnen Sie das arithmetische Mittel und den Median des Albenrankings für jedes Genre im Jahr 2020. Wieviele Alben sind pro Genre enthalten? Sortieren Sie die Ausgabe einmal absteigend nach dem Median, und einmal aufsteigend nach `genre`.
 j) Wieviele Bands sind in jeder der 3 Listen vertreten, wieviele Alben sind in jeder der 3 Listen vertreten, welche Alben ist in jeder der 3 Listen auf dem selben Platz, welche haben sich kontinuierlich verbessert, welche kontinuierlich verschlechtert?
-k) Der Datensatz liegt als `wide.table` vor, da das Ranking für 2003, 2012 und 2020 als Variablen nebeneinander stehen. Wandeln Sie den Datensatz in eine `long.table` (Tidy Data) um, so dass die Rankingangaben in den Variablen `Rang` und `Rangjahr` angegeben sind.
+k) Erzeugen Sie eine neue Variable `soloband`, in welcher festeghalten wird, ob es sich um eine(n) Solokünstler(in) handelt (`solo`), oder um eine Band (`band`).
+l) Der Datensatz liegt als `wide.table` vor, da die Rankings für 2003, 2012 und 2020 als Variablen nebeneinander stehen. Wandeln Sie den Datensatz in eine `long.table` (Tidy Data) um, so dass die Rankingangaben in den Variablen `Rang` und `Rangjahr` angegeben sind.
+m) Plotten Sie mittels `ggplot()` die Rangveränderungen von 2003 bis 2020 für solche Alben, die sich kontinuierlich verschlechter haben. Was fällt Ihnen auf?
 :::
 
 ::: {.callout-tip appearance="simple"}

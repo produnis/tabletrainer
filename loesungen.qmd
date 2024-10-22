@@ -578,7 +578,7 @@ rs[, .(mean = mean(rank_2020, na.rm=TRUE),
        N = sum(!is.na(rank_2020))), by = genre] 
 ```
 
-Haben Sie den Eintrag `Blues/Blues ROck` bemerkt? Es ist ein Tippfehler im Datensatz enthalten.
+Haben Sie den 15. Eintrag `Blues/Blues ROck` bemerkt? Es ist ein Tippfehler im Datensatz enthalten.
 
 ```{r}
 #| label: LoesungAA03i2
@@ -650,10 +650,42 @@ rs[rank_2003 < rank_2012 & rank_2012 < rank_2020,
 
 
 :::: {.callout-tip}
-# k) Der Datensatz liegt als `wide.table` vor, da das Ranking für 2003, 2012 und 2020 als Variablen nebeneinander stehen. Wandeln Sie den Datensatz in eine `long.table` (Tidy Data) um, so dass die Rankingangaben in den Variablen `Rang` und `Rangjahr` angegeben sind.
+# k) Erzeugen Sie eine neue Variable `soloband`, in welcher festeghalten wird, ob es sich um eine(n) Solokünstler(in) handelt (`solo`), oder um eine Band (`band`). Sind Solokünstlerinnen besser platziert als Solokünstler? Sind Bands besser platziert als Solokünstler(innen)?
 
 ```{r}
 #| label: LoesungAA03k
+# Solo oder Band?
+rs[, soloband := fifelse(artist_member_count > 1, "band", "solo")]
+
+# Künstlerinnen besser als Künstler?
+rs[soloband=="solo", .(mean03 = mean(rank_2003, na.rm=TRUE),
+                       mean12 = mean(rank_2012, na.rm=TRUE),
+                       mean20 = mean(rank_2020, na.rm=TRUE)
+                       ), by = artist_gender]
+```
+Männliche Solokünstler sind in allen 3 Listen durchschnittlich besser gerankt als weibliche.
+
+```{r}
+#| label: LoesungAA03k2
+
+# Solo besser als Band?
+rs[, .(mean03 = mean(rank_2003, na.rm=TRUE),
+       mean12 = mean(rank_2012, na.rm=TRUE),
+       mean20 = mean(rank_2020, na.rm=TRUE)
+       ), by = soloband]
+```
+
+In den Jahren 2003 und 2012 waren Solokünstler besser gerankt als Bands, in 2020 waren Bands leicht besser.
+::::
+
+\smallskip\  
+
+
+:::: {.callout-tip}
+# l) Der Datensatz liegt als `wide.table` vor, da die Rankings für 2003, 2012 und 2020 als Variablen nebeneinander stehen. Wandeln Sie den Datensatz in eine `long.table` (Tidy Data) um, so dass die Rankingangaben in den Variablen `Rang` und `Rangjahr` angegeben sind.
+
+```{r}
+#| label: LoesungAA03l
 # long table mit melt()
 long_rs <- melt(rs, 
                 measure.vars = c("rank_2003", "rank_2012", "rank_2020"),
@@ -665,3 +697,35 @@ head(long_rs)
 ::::
 
 \smallskip\  
+
+
+
+:::: {.callout-tip}
+# m) Plotten Sie mittels `ggplot()` die Rangveränderungen von 2003 bis 2020 für solche Alben, die sich kontinuierlich verschlechter haben. Was fällt Ihnen auf?
+
+```{r}
+#| label: LoesungAA03m
+# ggplot() aktivieren
+library(ggplot2)
+
+# Daten vorsortieren
+rs[rank_2003 < rank_2012 & rank_2012 < rank_2020, 
+   .(album, rank_2003, rank_2012, rank_2020)] |>
+  # in long-table überführen
+  melt( , measure.vars = c("rank_2003", "rank_2012", "rank_2020"),
+          variable.name = "Rangjahr",
+          value.name = "Rang") |>
+  # ggplot
+  ggplot(aes(x=Rangjahr, y=Rang, color=album, group=album)) +
+    geom_point() +
+    geom_line() +
+    ggtitle("Rolling Stone Album-Rankings über verschiedene Jahre") +
+    theme(legend.position = "none")
+```
+
+Es fällt auf, dass sich die Rankings vor allem von 2012 nach 2020 deutlich verschlechtert haben.
+::::
+
+\smallskip\  
+
+
