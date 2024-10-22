@@ -159,3 +159,25 @@ Lösung siehe @sec-LAA03
 \smallskip\  
 
 
+
+## Aufgabe [-@sec-AAA04] Taylor Swift {#sec-AAA04}
+
+
+::: {.callout-note appearance="simple"}
+
+Im Datensatz `taylor_swift_spotify2024.csv` (siehe <https://www.produnis.de/tabletrainer/data/taylor_swift_spotify2024.csv>) sind Daten von Taylor Swift bei Spotify enthalten (Stand 2024).
+
+a) Laden Sie den Datensatz `taylor_swift_spotify2024.csv` als `data.table` in Ihre R-Session. Nennen Sie Ihr Objekt dabei `ts` und verschaffen Sie sich mittels `str()` einen Überblick über die enthaltenen Daten.
+b) Wenn nötig, korrigiern Sie das Skalenniveau (nominal, ordinal, metrisch) der Variablen innerhalb des Datensatzes.
+c) Erstellen Sie eine neue Variable `sekunden`, welche die Songlängen in Sekunden enthält 
+d) Wie lang dauern die Songs im Durchschnitt? Bei welcher Songlänge liegt der Median? 
+e) Welcher Song ist laut Datensatz der populärste, welcher der längste, und welcher der langsamste insgesamt? Stellen Sie anschließend die Werte pro Album dar.
+f) Welches Album hat die meisten Songs, und welches hat die wenigsten Songs?
+g) Plotten Sie die Anzahl der Tracks pro Album als Punkt-Liniendiagramm, wobei das Datum auf der X-Achse, und die Trackanzahl auf der Y-Achse dargestellt werden.
+:::
+
+
+::: {.callout-tip appearance="simple"}
+Lösung siehe @sec-LAA04
+:::
+\smallskip\  

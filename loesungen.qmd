@@ -729,3 +729,158 @@ Es fällt auf, dass sich die Rankings vor allem von 2012 nach 2020 deutlich vers
 \smallskip\  
 
 
+
+
+
+
+
+
+## Lösung zur Aufgabe [-@sec-AAA04] Taylor Swift {#sec-LAA04}
+
+:::: {.callout-tip}
+# a) Laden Sie den Datensatz `taylor_swift_spotify2024.csv` als `data.table` in Ihre R-Session. Nennen Sie Ihr Objekt dabei `ts` und verschaffen Sie sich mittels `str()` einen Überblick über die enthaltenen Daten.
+```{r}
+#| label: LoesungAA04SETUP
+#| echo: false
+ts <- fread("data/taylor_swift_spotify2024.csv")
+
+```
+
+```{r}
+#| label: LoesungAA04a
+#| eval: false
+# falls schon gedownloadet
+ts <- fread("data/taylor_swift_spotify2024.csv")
+
+# per URL einlesen
+ts <- fread("https://www.produnis.de/tabletrainer/data/taylor_swift_spotify2024.csv")
+```
+
+
+```{r}
+#| label: LoesungAA04a2
+# anschauen
+str(ts)
+```
+
+::::
+
+
+\smallskip\  
+
+:::: {.callout-tip}
+# b) Wenn nötig, korrigiern Sie das Skalenniveau (nominal, ordinal, metrisch) der Variablen innerhalb des Datensatzes.
+```{r}
+#| label: LoesungAA04b
+ts[, let(name  = factor(name),
+         album = factor(album),
+         id    = factor(id),
+         uri   = factor(uri)
+        )]
+
+# anzeigen
+str(ts)
+```
+
+::::
+
+\smallskip\  
+
+
+:::: {.callout-tip}
+# c) Erstellen Sie eine neue Variable `sekunden`, welche die Songlängen in Sekunden enthält 
+```{r}
+#| label: LoesungAA04c
+ts[, sekunden := duration_ms/1000]
+```
+
+::::
+
+\smallskip\  
+
+
+
+:::: {.callout-tip}
+# d) Wie lang dauern die Songs im Durchschnitt? Bei welcher Songlänge liegt der Median? 
+```{r}
+#| label: LoesungAA04d
+ts[, .(Durchschnitt = mean(sekunden),
+       Median = median(sekunden)
+       )]
+```
+
+::::
+
+\smallskip\  
+
+
+
+:::: {.callout-tip}
+# e) Welcher Song ist laut Datensatz der populärste, welcher der längste, und welcher der langsamste? Stellen Sie anschließend die Werte pro Album dar.
+```{r}
+#| label: LoesungAA04e
+# populärster Song insgesamt
+ts[popularity == max(popularity), name]
+
+# populärster Song pro Album
+ts[ , .SD[which.max(popularity)], by=album, .SDcols=c("name", "popularity")] |> 
+  _[order(popularity, decreasing=TRUE)]
+
+# längster Song insgesamt
+ts[sekunden == max(sekunden), name]
+
+# längster Song pro Album
+ts[ , .SD[which.max(sekunden)], by=album, .SDcols=c("name", "sekunden")] |> 
+  _[order(sekunden, decreasing=TRUE)]
+
+# langsamster Song insgesamt
+ts[tempo == min(tempo), name]
+
+# langsamster Song pro Album
+ts[ , .SD[which.min(tempo)], by=album, .SDcols=c("name", "tempo")] |> 
+  _[order(tempo)]
+```
+
+::::
+
+\smallskip\  
+
+
+
+:::: {.callout-tip}
+# f) Welches Album hat die meisten Songs, und welches hat die wenigsten Songs?
+```{r}
+#| label: LoesungAA04f
+# die meisten Songs
+ts[ , .N, by=album][order(-N)][1]
+
+# die wenigsten Songs
+ts[ , .N, by=album][order(N)][1]
+```
+
+::::
+
+\smallskip\  
+
+
+:::: {.callout-tip}
+# g) Plotten Sie die Anzahl der Tracks pro Album als Punkt-Liniendiagramm, wobei das Datum auf der X-Achse, und die Trackanzahl auf der Y-Achse dargestellt werden.
+```{r}
+#| label: LoesungAA04g
+# Zähle Tracks pro Album
+ts[ , .N, by=release_date] |> 
+  # ggplot
+  ggplot(aes(x = release_date, y = N)) +
+    geom_line(color = "purple") +
+    geom_point(color = "purple") +
+    labs(x = "Datum", 
+         y = "Anzahl Tracks", 
+         title = "Taylor Swift Alben")
+```
+
+::::
+
+\smallskip\  
+
+
+
