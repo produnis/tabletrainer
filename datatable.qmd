@@ -551,3 +551,7 @@ pf_wide <- dcast(pf_tidy, Berufsgruppe ~ Jahr,
 head(pf_wide)
 ```
 
+
+## Cheat Sheet
+
+Auf GitHub ist ein schöner Cheat-Sheet für `data.table` vorhanden. Das PDF können Sie unter <https://raw.githubusercontent.com/rstudio/cheatsheets/master/datatable.pdf>  herunterladen.
