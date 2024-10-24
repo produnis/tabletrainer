@@ -1,0 +1,26 @@
+Schüler,Professor Lupin,Professor Moody,Professor Umbridge
+Harry Potter,8.5,9,4.5
+Hermine Granger,9.5,9.7,5
+Ron Weasley,7.5,8,4
+Neville Longbottom,6,7,3.5
+Luna Lovegood,8,8.5,4.8
+Ginny Weasley,8.2,8.8,4.7
+Draco Malfoy,7.8,8.2,4
+Pansy Parkinson,7,7.5,3.8
+Dean Thomas,8.5,8.9,4.6
+Seamus Finnigan,7.7,8.2,4.2
+Cho Chang,8.8,9.1,4.9
+Cedric Diggory,9,9.4,5.3
+Fred Weasley,7.9,8.4,4.1
+George Weasley,7.9,8.4,4.1
+Percy Weasley,8.3,8.6,4.4
+Oliver Wood,8.5,8.9,4.7
+Angelina Johnson,8.7,9,4.8
+Katie Bell,8.4,8.8,4.6
+Lee Jordan,8.2,8.5,4.5
+Parvati Patil,7.6,8,4.1
+Padma Patil,7.6,8,4.1
+Lavender Brown,7.3,7.8,4
+Ernie Macmillan,8,8.4,4.5
+Justin Finch-Fletchley,7.9,8.3,4.3
+Zacharias Smith,7.5,8,4.2
