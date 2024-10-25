@@ -124,6 +124,7 @@ fwrite(dt, "groegew.csv")
 
 \smallskip\  
 
+\newpage
 
 ## Lösung zur Aufgabe [-@sec-AAA01] Datentabelle {#sec-LAA01}
 ::: {.callout-tip}
@@ -1359,6 +1360,171 @@ lc[, Smoke := factor(ifelse(Smoke == 1, "ja", "nein"))]
 
 
 ::::
+
+
+\smallskip\  
+
+
+
+:::: {.callout-tip}
+# d) Plotten Sie nebeneinander die Boxplots der Lungenkapazität nichtrauchenden und rauchenden Kindern. Legt das Diagramm einen Zusammenhang nahe?
+
+```{r}
+#| label: LoesungAA08d
+ggplot(lc, aes(x=Smoke, y=FEV)) +
+  geom_boxplot(fill=c("darkgreen", "orchid"))
+```
+Es scheint, als ob rauchende Kinder eine größere Lungenkapazität hätten.
+::::
+
+
+
+\smallskip\  
+
+
+:::: {.callout-tip}
+# e) Führen Sie einen Signifikanztest durch, um zu überprüfen, ob sich die Lungenkapazitäten in Abhängigkeit zu `Smoke` unterscheidet.
+
+Zunächst prüfen wir, ob die Daten in `FEV` normalverteilt sind.
+
+```{r}
+#| label: LoesungAA08e
+lc[, .(p = shapiro.test(FEV)$p.value),
+   by = Smoke]
+```
+
+Der Test ist signifikant, d.h. `FEV` ist nicht normalverteilt. Wir müssen daher den Mann-Whitney-U-Test verwenden.
+
+```{r}
+#| label: LoesungAA08e2
+lc[, wilcox.test(FEV ~ Smoke, alternative = "greater")$p.value]
+```
+
+Der Test ist signifikant. Die Raucher haben eine größere Lungenkapazität als Nichtraucher.
+
+::: {.callout-warning appearance="default"}
+## Das sollte Sie erstmal verwundern!
+Raucher haben die *besseren* Lungen?
+:::
+
+::::
+
+
+
+\smallskip\  
+
+
+:::: {.callout-tip}
+# f) Erzeugen Sie eine Punktwole des Lungenvolumens und des Alters, sowie des Lungenvolumens und der Körpergröße. Legen die Diagramme einen Zusammenhang nahe?
+
+```{r}
+#| label: LoesungAA08f
+#| layout-ncol: 2
+scatter.smooth(lc$Age, lc$FEV, col="skyblue2")
+scatter.smooth(lc$Körpergröße, lc$FEV, col="thistle")
+
+```
+
+Es scheint einen linearen Zusammenhang zwischen dem Alter und der Lungenkapazität sowie zwischen der Körpergröße und der Lungenkapazität zu geben.
+::::
+
+
+
+\smallskip\  
+
+
+:::: {.callout-tip}
+# g) Welches Regressionsmodell ist am besten geeignet, um `FEV erklärt durch Alter` zu bestimmen, und welches  ist am besten geeignet,  um `FEV erklärt durch Körpergröße` zu bestimmen?
+
+```{r}
+#| label: LoesungAA08g
+# Modelle für FEV~Age
+lc[, jgsbook::compare.lm(FEV, Age)]
+# Modelle für FEV~Age
+lc[, jgsbook::compare.lm(FEV, Körpergröße)]
+
+```
+Für `FEV erklärt durch Alter` ist ein Potenzmodell am besten geeignet. Für `FEV erklärt durch Körpergröße` ist es ein exponentielles Modell. Dabei ist R^2^ mit 0,79 größer als beim Potenzmodell des Alters (0,63).
+
+Die Lungenkapazität wird am besten durch die Körpergröße erklärt.
+::::
+
+
+
+\smallskip\  
+
+
+
+:::: {.callout-tip}
+# h) Berechnen Sie das Modell, welches `FEV` am besten erklärt.
+
+```{r}
+#| label: LoesungAA08h
+# bestimme exponentielles Modell
+summary(lc[, lm(log(FEV) ~ Körpergröße)])
+```
+::::
+
+
+
+\smallskip\  
+
+
+:::: {.callout-tip}
+# i) Plotten Sie eine Punktwolke, mit `FEV` auf der Y-Achse, und dem besten Prädiktor auf der X-Achse. Färben Sie die Daten mittels der Variable `Smoke`. Fügen Sie anschließend Ihre Modelllinie dem Plot hinzu.
+
+Der beste Prädiktor ist `Körpergröße`.
+
+```{r}
+#| label: LoesungAA08i
+# speichere Modellvorhersagen in helper Objekt
+helper <- lc[, jgsbook::compare.lm(FEV, Körpergröße, predict=TRUE)]
+
+# plotte
+ggplot(lc, aes(x=Körpergröße, y=FEV)) +
+  geom_point(aes(color=factor(Smoke))) +
+  scale_color_manual(values=c("indianred2", "darkgreen")) +
+  geom_line(data=helper, aes(x=pred.x, y=expo), color="blue")
+```
+::::
+
+
+
+\smallskip\  
+
+
+:::: {.callout-tip}
+# j) Fügen Sie `Smoke`, `Age` und `Gender` als weitere Prädiktor dem Modell hinzu. Hat Rauchen einen Einfluss auf `FEV`?
+
+
+```{r}
+#| label: LoesungAA08j
+# exponentielles Modell um "Smoke", "Age" und "Gender" erweitern
+fit <- lc[, lm(log(FEV) ~ Körpergröße + Age + Gender + Smoke)]
+summary(fit)
+```
+
+
+Alle Prädiktoren sind signifikant. Der Beitrag von `Smoke` ist negativ. Dies spricht dafür, dass Rauchen die Lungenkapazität verschlechtert.
+
+```{r}
+#| label: LoesungAA08j2
+# Modelle vergleichen
+fit0 <- lc[, lm(log(FEV) ~ Körpergröße)]
+# R^2 vergleichen
+summary(fit0)$r.squared - summary(fit)$r.squared 
+```
+Durch Hinzunahme der Prädiktoren verbessert sich R^2^, aber nur minimal.
+
+::: {.callout-note appearance="default"}
+## zusammengefasst
+Es scheint nur auf den ersten Blick so, als hätten rauchende Kinder ein *besseres* Lungevolumen als nicht-rauchende Kinder. Das liegt daran, dass 
+
+  a) das Lungenvolumen maßgeblich von der Körpergröße abhängt, und 
+  b) die jüngeren Kinder eher nicht rauchen, sonder die älteren. Diese haben dann aber auch einen größeren Körper, und somit auch ein größeres Lungenvolumen als die *kleinen* Nichtraucher.
+:::
+::::
+
 
 
 \smallskip\  

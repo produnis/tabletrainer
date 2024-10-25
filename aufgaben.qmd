@@ -158,7 +158,7 @@ Lösung siehe @sec-LAA03
 
 \smallskip\  
 
-
+\newpage
 
 ## Aufgabe [-@sec-AAA04] Taylor Swift {#sec-AAA04}
 
@@ -211,6 +211,7 @@ Lösung siehe @sec-LAA05
 
 \smallskip\  
 
+\newpage
 
 ## Aufgabe [-@sec-AAA06] Verteidigung gegen die dunklen Künste {#sec-AAA06}
 
@@ -246,8 +247,11 @@ c) Plotten Sie die Punkte als Boxplots in Abhängigkeit zum Schuljahr, und dann 
 Lösung siehe @sec-LAA07
 :::
 
+\smallskip\  
 
-### Aufgabe [-@sec-AAA08] Lungenkapazität {#sec-AAA08}
+\newpage
+
+## Aufgabe [-@sec-AAA08] Lungenkapazität {#sec-AAA08}
 
 ::: {.callout-note appearance="simple"}
 @tager83 haben die Auswirkungen des mütterlichen Zigarettenrauchens auf die Lungenfunktion in einer Kohorte von Kindern und Jugendlichen untersucht, die über einen Zeitraum von sieben Jahren prospektiv beobachtet wurden. Dabei wurde auch erfasst, ob die Kinder selbst rauchen oder nicht. Die dazugehörigen Daten stehen unter anderem im `GLMsData`-Zusatzpaket unter dem Namen `lungcap` zur Verfügung. Im Datensatz beschreibt `FEV` das forcierte exspiratorische Volumen in Litern, ein Maß für die Lungenkapazität. Die Variable `Ht` beschreibt die Körpergröße der Probanden in Zoll. Ob die Kinder selbst auch rauchen, ist in der Variable `Smoke` erfasst.
@@ -256,16 +260,13 @@ Lösung siehe @sec-LAA07
 a) Laden Sie den Datensatz `lungcap` als `data.table` mit dem Namen `lc` in Ihre `R`-Session
 b) Erzeugen Sie eine neue Variable `Körpergröße`, welche die Körpergröße in Zentimetern enthält (1 Zoll =  2,54cm)
 c) Ändern Sie die Kodierung der Variable `Smoke`, so dass statt 0 "`nein`", und statt 1 "`ja`" enthalten ist. Passen Sie dabei auch das Skalenniveau an.
-
 d) Plotten Sie nebeneinander die Boxplots der Lungenkapazität nichtrauchenden und rauchenden Kindern. Legt das Diagramm einen Zusammenhang nahe?
 e) Führen Sie einen Signifikanztest durch, um zu überprüfen, ob sich die Lungenkapazitäten in Abhängigkeit zu `Smoke` unterscheidet.
-f) Erzeugen Sie eine Punktwole des Lungenvolumens und des Alters. Legt das Diagramm einen Zusammenhang nahe?
-g) Erzeugen Sie eine Punktwole des Lungenvolumens und der Körpergröße. Legt das Diagramm einen Zusammenhang nahe?
-h) Welches Regressionsmodell ist am besten geeignet, um `FEV erklärt durch Alter` zu bestimmen?
-i) Welches Regressionsmodell ist am besten geeignet, um `FEV erklärt durch Körpergröße` zu bestimmen?
-j) Berechnen Sie das Modell, welches `FEV` am besten erklärt.
-k) Plotten Sie eine Punktwolke, mit `FEV` auf der Y-Achse, und dem besten Prädiktor auf der X-Achse. Färben Sie die Daten mittels der Variable `Smoke`. Fügen Sie anschließend Ihre Modelllinie dem Plot hinzu.
-l) Fügen Sie `Smoke`, `Age` und `Gender` als weitere Prädiktor dem Modell hinzu. Hat Rauchen einen Einfluss auf `FEV`?
+f) Erzeugen Sie eine Punktwole des Lungenvolumens und des Alters, sowie des Lungenvolumens und der Körpergröße. Legen die Diagramme einen Zusammenhang nahe?
+g) Welches Regressionsmodell ist am besten geeignet, um `FEV erklärt durch Alter` zu bestimmen, und welches  ist am besten geeignet,  um `FEV erklärt durch Körpergröße` zu bestimmen?
+h) Berechnen Sie das Modell, welches `FEV` am besten erklärt.
+i) Plotten Sie eine Punktwolke, mit `FEV` auf der Y-Achse, und dem besten Prädiktor auf der X-Achse. Färben Sie die Daten mittels der Variable `Smoke`. Fügen Sie anschließend Ihre Modelllinie dem Plot hinzu.
+j) Fügen Sie `Smoke`, `Age` und `Gender` als weitere Prädiktor dem Modell hinzu. Hat Rauchen einen Einfluss auf `FEV`?
 
 Weitere Informationen zur Auswertungsstrategie finden sich bei @kahn05.
 
