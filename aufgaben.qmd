@@ -135,7 +135,7 @@ Lösung siehe @sec-LAA02
 ## Aufgabe [-@sec-AAA03] Rolling Stone Magazine {#sec-AAA03}
 
 ::: {.callout-note appearance="simple"}
-Die Datei `rolling_stone.csv` enthält die *500 Greatest Albums of All Time* Listen des Rolling Stone Magazines aus den Jahren 2003, 2012 und 2020. Der Datensatz stammt aus dem *Tidy Tuesday* Projekt [-@tidytuesday] vom [07.05.2024](https://github.com/rfordatascience/tidytuesday/blob/master/data/2024/2024-05-07/readme.md) und kann auch unter <https://www.produnis.de/tabletrainer/data/rolling_stone.csv> herutergeladen werden.
+Die Datei `rolling_stone.csv` enthält die *500 Greatest Albums of All Time* Listen des Rolling Stone Magazines aus den Jahren 2003, 2012 und 2020. Der Datensatz stammt aus dem *Tidy Tuesday* Projekt [-@tidytuesday] vom [07.05.2024](https://github.com/rfordatascience/tidytuesday/blob/master/data/2024/2024-05-07/readme.md) und kann auch unter <https://www.produnis.de/tabletrainer/data/rolling_stone.csv> herutergeladen werden. Die Aufgaben sind inspiriert von @datatableUSER2024.
 
 a) Laden Sie die Datei `rolling_stone.csv`  als `data.table` in Ihre `R`-Session und machen Sie sich mit dem Datensatz vertraut.
 b) Passen Sie das Skalenniveau der Variablen an.
@@ -146,7 +146,7 @@ f) Welche Band hat die meisten Alben im Datensatz?
 g) Prüfen Sie per Korrelationsverfahren, ob die Beliebtheit bei Spotify (`spotify_popularity`) mit der Liste von 2020 übereinstimmt.
 h) Welchen durchschnittlichen Rang erzielen Alben des Genres "`Electronic`" in den Jahren 2003, 2012 und 2020?
 i) Berechnen Sie das arithmetische Mittel und den Median des Albenrankings für jedes Genre im Jahr 2020. Wieviele Alben sind pro Genre enthalten? Sortieren Sie die Ausgabe einmal absteigend nach dem Median, und einmal aufsteigend nach `genre`.
-j) Wieviele Bands sind in jeder der 3 Listen vertreten, wieviele Alben sind in jeder der 3 Listen vertreten, welche Alben ist in jeder der 3 Listen auf dem selben Platz, welche haben sich kontinuierlich verbessert, welche kontinuierlich verschlechtert?
+j) Manche Künstler haben es in jede der 3 Listen geschafft. Wie groß ist die Anzahl an Bands, die in jeder der 3 Listen vertreten sind, wieviele Alben haben in jeder der 3 Listen eine Platzierung, welche Alben sind in jeder der 3 Listen auf dem selben Platz, welche haben sich kontinuierlich verbessert, welche kontinuierlich verschlechtert?
 k) Erzeugen Sie eine neue Variable `soloband`, in welcher festeghalten wird, ob es sich um eine(n) Solokünstler(in) handelt (`solo`), oder um eine Band (`band`).
 l) Der Datensatz liegt als `wide.table` vor, da die Rankings für 2003, 2012 und 2020 als Variablen nebeneinander stehen. Wandeln Sie den Datensatz in eine `long.table` (Tidy Data) um, so dass die Rankingangaben in den Variablen `Rang` und `Rangjahr` angegeben sind.
 m) Plotten Sie mittels `ggplot()` die Rangveränderungen von 2003 bis 2020 für solche Alben, die sich kontinuierlich verschlechter haben. Was fällt Ihnen auf?
@@ -181,3 +181,98 @@ g) Plotten Sie die Anzahl der Tracks pro Album als Punkt-Liniendiagramm, wobei d
 Lösung siehe @sec-LAA04
 :::
 \smallskip\  
+
+
+\newpage
+
+## Aufgabe [-@sec-AAA05] Neugeborene {#sec-AAA05}
+
+
+::: {.callout-note appearance="simple"}
+Der Datensatz `neonates` von rk.Teaching^[<https://github.com/rkward-community/rk.Teaching>], auch verfügbar unter  <https://www.produnis.de/tabletrainer/data/neonates.RData>, enthält Informationen über eine Stichprobe von 320 Neugeborenen, die im Laufe eines Jahres nach normaler Schwangerschaftsdauer geboren wurden.
+
+a) Überführen Sie die Daten in ein `data.table`-Objekt mit dem Namen `ng`.
+b) Die Variabel `apgar1` enthält die APGAR-Scores nach 1 Minute. Wenn ein Score von 3 oder weniger anzeigt, dass das Neugeborene in einem kritischen Zusatand ist, wie viel Prozent der Neugeborenen in der Stichprobe sind dann in einem kritischen Zustand?
+c) Erstellen Sie die Häufigkeitstabelle des Geburtsgewichts der Neugeborenen, indem Sie die Daten in Klassen mit einer Breite von 0,5 kg von 2 bis 4,5 kg einteilen. Welches Intervall enthält die meisten Neugeborenen?
+d) Vergleichen Sie die Häufigkeitsverteilung des APGAR-Scores nach 1 Minute für Mütter unter 20 Jahren und für Mütter über 20 Jahren. Welche Gruppe hat mehr Neugeborene in kritischem Zustand?
+e) Vergleichen Sie die relative Häufigkeitsverteilung des Geburtsgewichts der Neugeborenen, je nachdem, ob die Mutter während der Schwangerschaft geraucht hat (`smoke`) oder nicht. Wenn ein Gewicht unter 2,5 kg als niedriges Gewicht gilt, welche Gruppe hat einen höheren Prozentsatz an Neugeborenen mit niedrigem Gewicht?
+f) Berechnen Sie die Prävalenz von Neugeborenen mit niedrigem Gewicht für Mütter, die vor der Schwangerschaft geraucht haben  (`smoke.before`), und den Nichtraucherinnen.
+g) Berechnen Sie die Odds Ratio eines niedrigen Geburtsgewichts des Neugeborenen, wenn die Mutter während der Schwangerschaft raucht, im Vergleich dazu, wenn die Mutter nicht raucht.
+h) Erstellen Sie das Balkendiagramm der kumulierten relativen Häufigkeit des APGAR-Scores nach 1 Minute. Unter welchem Wert liegen die Hälfte der Neugeborenen?
+i) Vergleichen Sie die Balkendiagramme der relativen Häufigkeitsverteilungen des APGAR-Scores nach 1 Minute, je nachdem, ob die Mutter während der Schwangerschaft geraucht hat oder nicht. Welche Schlussfolgerungen können gezogen werden?
+j) Berechnen Sie Median, Durchschnitt und Standardabweichung für die APGAR-Scores nach 1 und nach 5 Minuten jeweils für die Kinder von Müttern, die vor der Schwangerschaft geraucht haben, und den Nichtraucherinnen. Geben Sie auch die Anzahl an Fällen (N) an. Bewerten Sie die Ergebnisse.
+k) Ist der Unterschied der APGAR-Scores aus Aufgabe j) signifikant?
+:::
+
+
+::: {.callout-tip appearance="simple"}
+Lösung siehe @sec-LAA05
+:::
+
+\smallskip\  
+
+
+## Aufgabe [-@sec-AAA06] Verteidigung gegen die dunklen Künste {#sec-AAA06}
+
+
+::: {.callout-note appearance="simple"}
+In den Textdatein `VgddK_Lupin.txt`, `VgddK_Moody.txt` und `VgddK_Umbridge.txt` (verfügbar unter  <https://www.produnis.de/tabletrainer/data/>) sind die Leistungspunkte (von 1 bis 10) von 25 Schüler:innen aus Hogwarts im Fach *Verteidigung gegen die dunklen Künste* enthalten, wobei diese Punkte jeweils für die Professoren Lupin, Moody und Umbridge erhoben wurde. 
+
+a) Laden Sie die Textdateien  als `data.table` in Ihre `R`-Session, und führe Sie diese zu einem einzelnen `data.table`-Objekt mit dem Namen `hp` zusammen.
+b) Erstellen Sie mit `ggplot()` ein Diagramm, welches die Leistungspunkte als Boxplots für jeden Professor darstellt. Hierfür bietet es sich an, die Daten ins `long table` Format zu überführen.
+:::
+
+
+::: {.callout-tip appearance="simple"}
+Lösung siehe @sec-LAA06
+:::
+
+\smallskip\  
+
+
+## Aufgabe [-@sec-AAA07] Hogwarts Hauspunkte {#sec-AAA07}
+
+
+::: {.callout-note appearance="simple"}
+In der Datei `PotterHauspunkte.RData` (verfügbar unter  <https://www.produnis.de/tabletrainer/data/PotterHauspunkte.RData>) sind die Hauspunkte erfasst, die 3.273 Schüler in ihrem ersten, dritten und fünften Schuljahr an Hogwarts für ihr Haus gesammelt haben.
+
+a) Laden Sie den Datensatz von  <https://www.produnis.de/tabletrainer/data/PotterHauspunkte.RData>  in Ihre `R`-Session, und überführen Sie ihn in eine `data.table` mit dem Namen `pp`.
+b) Berechnen Sie Median, Mittelwert und Standardabweichung für die Hauspunkte insgesamt, und jeweils für jedes Haus und Jahr gesondert.
+c) Plotten Sie die Punkte als Boxplots in Abhängigkeit zum Schuljahr, und dann in Abhängigkeit zum Haus.
+:::
+
+
+::: {.callout-tip appearance="simple"}
+Lösung siehe @sec-LAA07
+:::
+
+
+### Aufgabe [-@sec-AAA08] Lungenkapazität {#sec-AAA08}
+
+::: {.callout-note appearance="simple"}
+@tager83 haben die Auswirkungen des mütterlichen Zigarettenrauchens auf die Lungenfunktion in einer Kohorte von Kindern und Jugendlichen untersucht, die über einen Zeitraum von sieben Jahren prospektiv beobachtet wurden. Dabei wurde auch erfasst, ob die Kinder selbst rauchen oder nicht. Die dazugehörigen Daten stehen unter anderem im `GLMsData`-Zusatzpaket unter dem Namen `lungcap` zur Verfügung. Im Datensatz beschreibt `FEV` das forcierte exspiratorische Volumen in Litern, ein Maß für die Lungenkapazität. Die Variable `Ht` beschreibt die Körpergröße der Probanden in Zoll. Ob die Kinder selbst auch rauchen, ist in der Variable `Smoke` erfasst.
+
+
+a) Laden Sie den Datensatz `lungcap` als `data.table` mit dem Namen `lc` in Ihre `R`-Session
+b) Erzeugen Sie eine neue Variable `Körpergröße`, welche die Körpergröße in Zentimetern enthält (1 Zoll =  2,54cm)
+c) Ändern Sie die Kodierung der Variable `Smoke`, so dass statt 0 "`nein`", und statt 1 "`ja`" enthalten ist. Passen Sie dabei auch das Skalenniveau an.
+
+d) Plotten Sie nebeneinander die Boxplots der Lungenkapazität nichtrauchenden und rauchenden Kindern. Legt das Diagramm einen Zusammenhang nahe?
+e) Führen Sie einen Signifikanztest durch, um zu überprüfen, ob sich die Lungenkapazitäten in Abhängigkeit zu `Smoke` unterscheidet.
+f) Erzeugen Sie eine Punktwole des Lungenvolumens und des Alters. Legt das Diagramm einen Zusammenhang nahe?
+g) Erzeugen Sie eine Punktwole des Lungenvolumens und der Körpergröße. Legt das Diagramm einen Zusammenhang nahe?
+h) Welches Regressionsmodell ist am besten geeignet, um `FEV erklärt durch Alter` zu bestimmen?
+i) Welches Regressionsmodell ist am besten geeignet, um `FEV erklärt durch Körpergröße` zu bestimmen?
+j) Berechnen Sie das Modell, welches `FEV` am besten erklärt.
+k) Plotten Sie eine Punktwolke, mit `FEV` auf der Y-Achse, und dem besten Prädiktor auf der X-Achse. Färben Sie die Daten mittels der Variable `Smoke`. Fügen Sie anschließend Ihre Modelllinie dem Plot hinzu.
+l) Fügen Sie `Smoke`, `Age` und `Gender` als weitere Prädiktor dem Modell hinzu. Hat Rauchen einen Einfluss auf `FEV`?
+
+Weitere Informationen zur Auswertungsstrategie finden sich bei @kahn05.
+
+:::
+
+::: {.callout-tip appearance="simple"}
+Lösung siehe @sec-LAA08
+:::
+
+

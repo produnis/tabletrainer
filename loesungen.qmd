@@ -13,6 +13,13 @@ format:
 Gerade als Anfänger:in sollten Sie zumindest *versuchen*, die Aufgaben selbstständig zu lösen, bevor Sie sich die Lösungswege anschauen. Kopf hoch, Sie schaffen das!
 :::
 
+::: {.callout-tip appearance="default"}
+## Cheat Sheet
+Auf GitHub ist ein schöner Cheat-Sheet für `data.table` vorhanden, der bei der Lösung der Aufgaben hilfreich sein könnte. Das PDF können Sie unter <https://raw.githubusercontent.com/rstudio/cheatsheets/master/datatable.pdf>  herunterladen.
+
+:::
+
+
 ## Lösung zur Aufgabe [-@sec-AAA00] Größe und Gewicht {#sec-LAA00}
 ::: {.callout-tip}
 ## a) Überführen Sie die Daten in eine `data.table` mit den Variablen `Groesse` und `Gewicht`.
@@ -610,7 +617,7 @@ rs[, .(mean = mean(rank_2020, na.rm=TRUE),
 
 
 :::: {.callout-tip}
-# j) Wieviele Bands sind in jeder der 3 Listen vertreten, wieviele Alben sind in jeder der 3 Listen vertreten, welche Alben ist in jeder der 3 Listen auf dem selben Platz, welche haben sich kontinuierlich verbessert, welche kontinuierlich verschlechtert?
+# j) Manche Künstler haben es in jede der 3 Listen geschafft. Wie groß ist die Anzahl an Bands, die in jeder der 3 Listen vertreten sind, wieviele Alben haben in jeder der 3 Listen eine Platzierung, welche Alben sind in jeder der 3 Listen auf dem selben Platz, welche haben sich kontinuierlich verbessert, welche kontinuierlich verschlechtert?
 
 ```{r}
 #| label: LoesungAA03j
@@ -883,4 +890,476 @@ ts[ , .N, by=release_date] |>
 \smallskip\  
 
 
+
+
+
+## Lösung zur Aufgabe [-@sec-AAA05] Neugeborene {#sec-LAA05}
+
+:::: {.callout-tip}
+# a) Überführen Sie die Daten in ein `data.table`-Objekt mit dem Namen `ng`.
+```{r}
+#| label: LoesungAA05SETUP
+#| echo: false
+load("data/neonates.RData")
+ng <- as.data.table(neonates)
+```
+
+```{r}
+#| label: LoesungAA05a
+#| eval: false
+# Lade Daten
+load("https://www.produnis.de/tabletrainer/data/neonates.RData")
+
+# überführe in data.table
+ng <- as.data.table(neonates)
+```
+
+
+```{r}
+#| label: LoesungAA05a2
+# anschauen
+summary(ng)
+```
+
+::::
+
+\smallskip\  
+
+:::: {.callout-tip}
+# b) Die Variabel `apgar1` enthält die APGAR-Scores nach 1 Minute. Wenn ein Score von 3 oder weniger anzeigt, dass das Neugeborene in einem kritischen Zusatand ist, wie viel Prozent der Neugeborenen in der Stichprobe sind dann in einem kritischen Zustand?
+```{r}
+#| label: LoesungAA05b
+ng[ , .(Prozent = 100 * mean(apgar1 <= 3))]
+```
+
+7,8125% der Neugeborenen sind in einem kritischen Zustand.
+::::
+
+
+\smallskip\  
+
+
+:::: {.callout-tip}
+# c) Erstellen Sie die Häufigkeitstabelle des Geburtsgewichts der Neugeborenen, indem Sie die Daten in Klassen mit einer Breite von 0,5 kg von 2 bis 4,5 kg einteilen. Welches Intervall enthält die meisten Neugeborenen?
+```{r}
+#| label: LoesungAA05c
+ng[, gewichtK := cut(weight, 
+                     breaks=seq(2, 4.5, by=0.5), 
+                     right=FALSE)] |> 
+  _[, jgsbook::freqTable(gewichtK)]
+
+```
+
+::::
+
+
+\smallskip\  
+
+
+
+:::: {.callout-tip}
+# d) Vergleichen Sie die Häufigkeitsverteilung des APGAR-Scores nach 1 Minute für Mütter unter 20 Jahren und für Mütter über 20 Jahren. Welche Gruppe hat mehr Neugeborene in kritischem Zustand?
+```{r}
+#| label: LoesungAA05d
+# Jünger als 20
+ng[age=="less than 20",  jgsbook::freqTable(apgar1)]
+# Älter als 20
+ng[age=="greater than 20",  jgsbook::freqTable(apgar1)]
+
+```
+
+In der Gruppe der unter-20-jährigen liegt der Prozentsatz an Neugeborenen mit APGAR-Werten kleiner-gleich 3 bei 12,74%. In der Gruppe der über-20-jährigen liegt der Prozentwert bei 5,51%. Es tritt also in
+der Gruppe der jüngeren Mütter häufiger auf.
+::::
+
+
+\smallskip\  
+
+
+
+:::: {.callout-tip}
+# e) Vergleichen Sie die relative Häufigkeitsverteilung des Geburtsgewichts der Neugeborenen, je nachdem, ob die Mutter während der Schwangerschaft geraucht hat (`smoke`) oder nicht. Wenn ein Gewicht unter 2,5 kg als niedriges Gewicht gilt, welche Gruppe hat einen höheren Prozentsatz an Neugeborenen mit niedrigem Gewicht?
+```{r}
+#| label: LoesungAA05e
+# Prozenzsatz Geburtsgewicht kleiner 2,5kg
+ng[, .(Prozent = 100 * mean(weight<2.5)), by=smoke]
+
+```
+
+In der Gruppe der Nichtraucherinnen trat ein Geburtsgewicht kleiner 2,5kg in 2,27% der Fälle auf. Bei
+den Raucherinnen waren es 17%.
+::::
+
+
+\smallskip\  
+
+
+
+:::: {.callout-tip}
+# f) Berechnen Sie die Prävalenz von Neugeborenen mit niedrigem Gewicht für Mütter, die vor der Schwangerschaft geraucht haben  (`smoke.before`), und den Nichtraucherinnen.
+```{r}
+#| label: LoesungAA05f
+# Prozenzsatz Geburtsgewicht kleiner 2,5kg
+ng[, .(Prozent = 100 * mean(weight<2.5)), by=smoke.before]
+
+```
+
+Die Prävalenz beträgt unter den Nichtraucherinnen 1,08% und unter den Raucherinnen 14,81%.
+::::
+
+
+\smallskip\  
+
+
+
+
+:::: {.callout-tip}
+# g) Berechnen Sie die Odds Ratio eines niedrigen Geburtsgewichts des Neugeborenen, wenn die Mutter während der Schwangerschaft raucht, im Vergleich dazu, wenn die Mutter nicht raucht.
+```{r}
+#| label: LoesungAA05g
+# Kreuztabelle erzeugen
+t <- dcast(ng, smoke ~ (weight < 2.5), fun=length, value.var="weight")
+# in Matrix überführen
+t <- as.matrix(t, rownames=TRUE)
+# Odds Ratio
+epitools::oddsratio(t)$measure
+
+
+```
+
+Raucherinnen haben ein 8-fach höheres Risiko ein Kind mit niedrigem Gewicht zugebären als Nichtraucherinnen. 
+::::
+
+
+\smallskip\  
+
+
+
+
+:::: {.callout-tip}
+# h) Erstellen Sie das Balkendiagramm der kumulierten relativen Häufigkeit des APGAR-Scores nach 1 Minute. Unter welchem Wert liegen die Hälfte der Neugeborenen?
+```{r}
+#| label: LoesungAA05h
+# relative Häufigkeitstabelle
+ng[, .(prop.table(table(apgar1)))] |> 
+  # kumulieren
+  _[, Relkum := cumsum(N)][] |>
+  # an ggplot() senden
+  ggplot(aes(x=apgar1, y=Relkum)) +
+    geom_bar(stat="identity", col="black", fill="khaki") +
+    geom_hline(yintercept = 0.5, col="indianred3")
+
+```
+
+Die Hälfte der Werte liegen unter **6**.
+::::
+
+
+\smallskip\  
+
+
+
+
+:::: {.callout-tip}
+# i) Vergleichen Sie die Balkendiagramme der relativen Häufigkeitsverteilungen des APGAR-Scores nach 1 Minute, je nachdem, ob die Mutter während der Schwangerschaft geraucht hat oder nicht. Welche Schlussfolgerungen können gezogen werden?
+```{r}
+#| label: LoesungAA05i
+# relative Häufigkeitstabelle
+ng[, apgar1, by=smoke] |>
+  # an ggplot() senden
+  ggplot(aes(x=apgar1, y=after_stat(prop)*100, fill=smoke)) +
+    geom_bar(col="black", position = "dodge") +
+    scale_x_continuous(breaks = c(1:9)) +
+  ylab("relative Häufigkeiten")
+
+```
+
+Die Kinder der Raucherinnen haben geringere APGAR-Werte. Kein Kind von Raucherinnen erreicht Wert 9.
+::::
+
+
+\smallskip\  
+
+
+:::: {.callout-tip}
+# j) Berechnen Sie Median, Durchschnitt und Standardabweichung für die APGAR-Scores nach 1 und nach 5 Minuten jeweils für die Kinder von Müttern, die vor der Schwangerschaft geraucht haben, und den Nichtraucherinnen. Geben Sie auch die Anzahl an Fällen (N) an. Bewerten Sie die Ergebnisse.
+```{r}
+#| label: LoesungAA05j
+# wähle benötigte Variablen aus
+ng[, .(smoke.before, apgar1, apgar5)] |>
+  # überführe in long table (tidy data)
+  melt(id.vars= "smoke.before",
+       measure.vars = c("apgar1", "apgar5"),
+       variable.name = "Test",
+       value.name = "APGAR_Score")|>
+  # berechne die Kennwerte pro Gruppe
+  _[, .(Median = median(APGAR_Score),
+        Mittel = mean(APGAR_Score),
+        StdAbw = sd(APGAR_Score),
+        N = .N
+       ), by = c("Test", "smoke.before")]
+```
+Kinder von Frauen, die vor der Schwangerschaft geraucht haben, haben zu beiden Messzeitpunkten niedrigere APGAR-Scores und eine höhere Streuung der Werte.
+::::
+
+
+\smallskip\  
+
+
+:::: {.callout-tip}
+# k) Ist der Unterschied der APGAR-Scores aus Aufgabe j) signifikant?
+Testen wir zunächst auf Normalverteilung
+```{r}
+#| label: LoesungAA05k
+# Teste apgar1 auf Normalverteilung
+ng[, .(p = shapiro.test(apgar1)$p.value), by="smoke.before"]
+
+# Teste apgar5 auf Normalverteilung
+ng[, .(p = shapiro.test(apgar5)$p.value), by="smoke.before"]
+```
+
+Alle Tests sind signifikant, d.h. es liegt **keine** Normalverteilung vor. Wir dürfen also nicht den t-Test verwenden, sondern müssen den Mann-Whitney-U-Test anwenden.
+
+```{r}
+#| label: LoesungAA05k2
+# Signifikanztest für APGAR1
+ng[, wilcox.test(apgar1 ~ smoke.before)$p.value]
+
+# Signifikanztest für APGAR5
+ng[, wilcox.test(apgar5 ~ smoke.before)$p.value]
+```
+Beide Ergebnisse sind signifikant. Das bedeutet, dass der Unterschied in den APGAR-Scores zwischen Nichtraucherinnen und Müttern, die vor der Schwangerschaft geraucht haben, signifikant ist.
+::::
+
+
+\smallskip\  
+
+
+
+## Lösung zur Aufgabe [-@sec-AAA06] Verteidigung gegen die dunklen Künste {#sec-LAA06}
+
+:::: {.callout-tip}
+# a) Laden Sie die Textdateien  als `data.table` in Ihre `R`-Session, und führe Sie diese zu einem einzelnen `data.table`-Objekt mit dem Namen `hp` zusammen.
+```{r}
+#| label: LoesungAA06SETUP
+#| echo: false
+lupin <- fread("data/VgddK_Lupin.txt")
+moody <- fread("data/VgddK_Moody.txt")
+umbri <- fread("data/VgddK_Umbridge.txt")
+```
+
+```{r}
+#| label: LoesungAA06a
+#| eval: false
+# Lade Daten
+lupin <- fread("https://www.produnis.de/tabletrainer/data/VgddK_Lupin.txt")
+moody <- fread("https://www.produnis.de/tabletrainer/data/VgddK_Moody.txt")
+umbri <- fread("https://www.produnis.de/tabletrainer/data/VgddK_Umbridge.txt")
+```
+
+
+```{r}
+#| label: LoesungAA06a2
+# führe zu einem Objekt "hp" zusammen
+hp <- lupin[moody, on=.(Schüler=Schüler)][umbri, on=.(Schüler=Schüler)]
+
+# anschauen
+str(hp)
+```
+
+::::
+
+\smallskip\  
+
+
+:::: {.callout-tip}
+# b) Erstellen Sie mit `ggplot()` ein Diagramm, welches die Leistungspunkte als Boxplots für jeden Professor darstellt. Hierfür bietet es sich an, die Daten ins `long table` Format zu überführen.
+```{r}
+#| label: LoesungAA06b
+# Daten ins long-table-tidy-Format bringen
+melt(hp, 
+     id.vars = "Schüler",
+     variable.name = "Professoren",
+     value.name = "Leistungspunkte") |> 
+  # mit ggplot() plotten
+  ggplot(aes(x=Professoren, y=Leistungspunkte)) +
+    geom_boxplot(fill=c("steelblue", "skyblue", "orchid")) +
+    stat_boxplot(geom="errorbar") +
+    ggtitle("Verteidigung gegen die dunklen Künste")
+```
+
+::::
+
+\smallskip\  
+
+
+
+## Lösung zur Aufgabe [-@sec-AAA07] Hogwarts Hauspunkte {#sec-LAA07}
+
+:::: {.callout-tip}
+# a) Laden Sie den Datensatz in Ihre `R`-Session, und überführen Sie ihn in eine `data.table` mit dem Namen `pp`.
+```{r}
+#| label: LoesungAA07SETUP
+#| echo: false
+load("data/PotterHauspunkte.RData")
+pp <- as.data.table(PotterPunkte)
+```
+
+```{r}
+#| label: LoesungAA07a
+#| eval: false
+# Lade Daten
+load("https://www.produnis.de/tabletrainer/data/PotterHauspunkte.RData")
+
+# überführe in data.table
+pp <- as.data.table(PotterPunkte)
+```
+
+
+```{r}
+#| label: LoesungAA07a2
+# anschauen
+str(pp)
+```
+
+::::
+
+\smallskip\  
+
+
+:::: {.callout-tip}
+# b) Berechnen Sie Median, Mittelwert und Standardabweichung für die Hauspunkte insgesamt, und jeweils für jedes Haus und Jahr gesondert.
+```{r}
+#| label: LoesungAA07b
+# Werte insgesamt
+pp[, .(Median = median(c(Jahr1, Jahr3, Jahr5)),
+       Mittel = mean(c(Jahr1, Jahr3, Jahr5)),
+       Stdabw = sd(c(Jahr1, Jahr3, Jahr5))
+      )]
+
+# Werte für Haus und Schuljahr
+melt(pp, 
+     id.vars = "Haus",
+     measure.vars = c("Jahr1", "Jahr3", "Jahr5"),
+     variable.name = "Schuljahr",
+     value.name = "Hauspunkte") |> 
+  _[, .(Median = median(Hauspunkte),
+        Mittel = mean(Hauspunkte),
+        Stdabw = sd(Hauspunkte)), by = c("Haus", "Schuljahr")]
+
+```
+::::
+
+
+\smallskip\  
+
+
+:::: {.callout-tip}
+# c) Plotten Sie die Punkte als Boxplots in Abhängigkeit zum Schuljahr, und dann in Abhängigkeit zum Haus. Verknüpfen Sie abschließend diese Bedingungen mittels `facet.wrap()`.
+```{r}
+#| label: LoesungAA07c
+# Daten ins long-table-tidy-Format bringen
+long_pp <- melt(pp, 
+     id.vars = "Haus",
+     measure.vars = c("Jahr1", "Jahr3", "Jahr5"),
+     variable.name = "Schuljahr",
+     value.name = "Hauspunkte") 
+
+# plotte Punkte pro Schuljahr
+ggplot(long_pp, aes(x=Schuljahr, y=Hauspunkte)) +
+  geom_boxplot(fill=c("steelblue", "skyblue", "orchid")) +
+  stat_boxplot(geom="errorbar") +
+  ggtitle("Punkte für den Hauspokal")
+
+# plotte Punkte pro Haus
+ggplot(long_pp, aes(x=Haus, y=Hauspunkte)) +
+  geom_boxplot(fill=c("gold", "orchid", "skyblue", "seagreen3")) +
+  stat_boxplot(geom="errorbar") +
+  ggtitle("Punkte für den Hauspokal")
+
+# Kombination von beiden Bedingungen
+ggplot(long_pp, aes(y=Hauspunkte, fill=Haus)) +
+  geom_boxplot() +
+  theme(axis.text.x=element_blank(), 
+        axis.ticks.x=element_blank(),
+        legend.position = "none") +
+  facet_grid(Schuljahr~Haus) +
+  ggtitle("Punkte für den Hauspokal")
+```
+
+::::
+
+
+
+\smallskip\  
+
+
+
+
+## Lösung zur Aufgabe [-@sec-AAA08] Lungenkapazität {#sec-LAA08}
+
+:::: {.callout-tip}
+# a) Laden Sie den Datensatz `lungcap` als `data.table` mit dem Namen `lc` in Ihre `R`-Session
+
+```{r}
+#| label: LoesungAA08a
+# Lade Daten
+library(GLMsData)
+data("lungcap")
+
+# überführe in data.table
+lc <- as.data.table(lungcap)
+
+# anschauen
+str(lc)
+```
+
+
+::::
+
+
+\smallskip\  
+
+
+:::: {.callout-tip}
+# b) Erzeugen Sie eine neue Variable `Körpergröße`, welche die Körpergröße in Zentimetern enthält (1 Zoll =  2,54cm)
+
+```{r}
+#| label: LoesungAA08b
+lc[, Körpergröße := Ht*2.54 ]
+```
+
+
+::::
+
+\smallskip\  
+
+
+:::: {.callout-tip}
+# c) Ändern Sie die Kodierung der Variable `Smoke`, so dass statt 0 "`nein`", und statt 1 "`ja`" enthalten ist. Passen Sie dabei auch das Skalenniveau an.
+
+```{r}
+#| label: LoesungAA08c
+#| eval: false
+# ändere Kodierung von Smoke
+lc[, Smoke := ifelse(Smoke == 1, "ja", "nein")]
+
+# passe Skalenniveau an
+lc[, Smoke := factor(Smoke)]
+```
+
+
+Das geht auch in einer Zeile:
+
+```{r}
+#| label: LoesungAA08c2
+# ändere Kodierung und setze Factor in einem Rutsch
+lc[, Smoke := factor(ifelse(Smoke == 1, "ja", "nein"))]
+```
+
+
+::::
+
+
+\smallskip\  
 
