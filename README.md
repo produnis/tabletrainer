@@ -3,7 +3,7 @@
 <img src="https://i.imgur.com/Tu5jarn.png" width="200">
 
 
-Ein freies Übungsbuch für das R-Paket {data.table}
+Ein freies Übungsbuch für das R-Paket `{data.table}`
 
 **Dieses Buch befindet sich noch in der Erstellung und ist daher noch nicht fertig!!!**
 
