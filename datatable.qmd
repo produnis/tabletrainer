@@ -552,6 +552,59 @@ head(pf_wide)
 ```
 
 
+### Subset of Data (`.SD`)
+*Subset of Data* wird in der `data.table`-Syntax verwendet, um eine Teilmenge der Daten in einer speziellen Umgebung zu referenzieren. Die Funktion hierfür heisst `.SD` und enthält eine Auswahl an Spalten der `data.table`, die weiterverarbeitet werden können, z. B. durch Berechnungen oder Transformationen.
+
+`.SD` ist besonders nützlich, wenn Sie Berechnungen oder Transformationen nur auf bestimmte Spalten anwenden möchten, während die anderen Spalten beibehalten werden sollen.
+
+
+Schauen wir uns nochmal unser Objekt `pf` an.
+```{r}
+str(pf)
+
+```
+Nun verwenden wir `.SD`, um für jede Spalte den Mittelwert zu berechnen.
+
+```{r}
+pf[, lapply(.SD, mean)]
+```
+Der Aufruf `lapply(.SD, mean)` wendet die Funktion `mean` auf jede Spalte in `.SD` an.
+
+
+#### Verwendung von `.SDcols`
+
+`.SDcols` ist ein optionaler Parameter, mit dem die Spalten, die in `.SD` enthalten sind, gezielt ausgewählt werden können.
+
+Schauen wir uns das Objekt `dt` an.
+```{r}
+str(dt)
+```
+
+Wir können nun den Median für alle mindestens ordinalskalierten Variablen (`alter`, `stifte`, `fahrzeit`) berechnen, indem wir diese Variablen per `.SDcols` angeben.
+
+```{r}
+# Wähle die Spalten aus, die verwendet werden sollen
+dt[, lapply(.SD, median), .SDcols=c("alter", "stifte", "fahrzeit")]
+```
+
+Dies klappt auch mit Gruppierungen. Wir berechnen die Werte erneut, diesmal aber getrennt nach `geschlecht`.
+
+```{r}
+dt[, lapply(.SD, median),
+   by=geschlecht, .SDcols=c("alter", "stifte", "fahrzeit")]
+```
+
+
+Auf diese Weise können Spalten auch transformiert werden. Angenommen, wir möchten die Werte für `alter` und `stifte` verdoppeln, dann lautet der Aufruf:
+```{r}
+# Verdopple alter und stifte
+dt[, (c("alter", "stifte")) := lapply(.SD, function(x) x*2), 
+   .SDcols = c("alter", "stifte")]
+
+head(dt)
+```
+
+
 ## Cheat Sheet
 
 Auf GitHub ist ein schöner Cheat-Sheet für `data.table` vorhanden. Das PDF können Sie unter <https://raw.githubusercontent.com/rstudio/cheatsheets/master/datatable.pdf>  herunterladen.
