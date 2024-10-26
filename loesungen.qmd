@@ -996,6 +996,7 @@ load(url("https://www.produnis.de/tabletrainer/data/datasaurus.RData"))
 
 ```{r}
 #| label: LoesungAA04Bdatasaurus
+#| fig-height: 8
 # plotten
 ggplot(datasaurus, aes(x=x, y=y)) +
   geom_point() +
@@ -1689,7 +1690,7 @@ spalten <- names(kh)[5:17]
 kh[, (spalten) := lapply(.SD, \(x) fifelse(x == 1, "ja", "nein")), 
                          .SDcols = spalten]
 
-# Alle außer "Alter" müssen factor sein
+# Alle außer "Alter" und "CHARLSON_SUM_G" müssen factor sein
 spalten <- names(kh)[-c(3:4)]
 # wandle in factor um
 kh[, (spalten) := lapply(.SD, factor), .SDcols = spalten]
