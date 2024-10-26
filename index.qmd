@@ -30,7 +30,7 @@ Unter folgenden Bedingungen:
 ::: callout-tip
 ## **Zitationsvorschlag**
 
-große Schlarmann, J (2024): "table traineR. Workouts für {data.table}", <https://www.produnis.de/tabletrainer/>
+große Schlarmann, J (2024): "table traineR. Workouts für {data.table}", Hochschule Niederrhein, <https://www.produnis.de/tabletrainer/>
 
 \scriptsize
 

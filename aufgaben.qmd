@@ -193,7 +193,7 @@ Das Anscombe-Quartett ist ein bekannter Datensatz in der Statistik, der von Fran
 
 Der dazugehörige Datensatz ist in der `R`-Standardinstallation bereits implementiert und heisst `anscombe`.
 
-a) Laden Sie den Datensatz `anscombe` in Ihre R-Session und überführen Sie ihn in ein `data.table` Objekt. 
+a) Laden Sie den Datensatz `anscombe` in Ihre R-Session und überführen Sie ihn in ein `data.table` Objekt mit dem Namen `ac`. 
 b) Die Daten liegen als *breite Tabelle* (wide tabel) vor. Überführen Sie sie ins *long table* (tidy) Format, so dass Ihre data.table aus den Spalten `x`, `y`, und `Gruppe` besteht.
 c) Berechnen Sie für jede `Gruppe` die Mittelwerte, Standardabweichungen, Korrelations- und Regressionskoeffizienten von `x` und `y`, wobei Sie Ihre Ergebnisse auf 2 Stellen runden sollen.  
 d) Erzeugen Sie mittels `ggplot()` eine Punktwolke mit Regressionsgeraden für jede `Gruppe`, wobei alle 4 Diagramme mit einem Plotaufruf erzeugt werden sollen. 
