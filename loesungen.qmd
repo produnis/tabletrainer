@@ -969,10 +969,40 @@ ggplot(lac, aes(x=x, y=y)) +
 ```
 
 ::: {.callout-caution appearance="simple"}
-Jede Gruppe liefert zwar die selben Kennwert, aber die Diagramme sehen nicht nur vollständig unterschiedlich aus, sie legen auch nahe, dass Ausreißer oder Messfehler die Ergebnisse verzerrt haben.
+Jede Gruppe liefert zwar die selben Kennwert, aber die Diagramme sehen nicht nur vollständig unterschiedlich aus, sie legen auch nahe, dass Ausreißer oder Messfehler die Ergebnisse verzerrt haben, und dass andere Korrelations- und Regressionsmethoden zu wählen sind.
 :::
 
 ::::
+
+::: {.callout-warning appearance="default"}
+## heutzutage
+Es ist nicht bekannt, wie Anscombe den Datensatz in den 1970er Jahren erstellt hat.
+Heutzutage ist es mit Hilfe von evolutionären Algorithmen möglich, weit komplexere Datensätze zu erzeugen, die in ihren Kennwerten übereinstimmen, deren Streudiagramme aber beliebige Formen annehmen können.
+
+Mein Favorit ist der Datasaurus von @matejka17.
+```{r}
+#| label: LoesungAA04BdatasaurusSETUP
+#| echo: false
+# Daten einlesen
+load("data/datasaurus.RData")
+```
+
+```{r}
+#| label: LoesungAA04BdatasaurusSETUPb
+#| eval: false
+# Daten einlesen 
+load(url("https://www.produnis.de/tabletrainer/data/datasaurus.RData"))
+```
+
+```{r}
+#| label: LoesungAA04Bdatasaurus
+# plotten
+ggplot(datasaurus, aes(x=x, y=y)) +
+  geom_point() +
+  facet_wrap(~dataset)
+```
+
+:::
 
 \smallskip\  
 
@@ -1612,4 +1642,63 @@ Es scheint nur auf den ersten Blick so, als hätten rauchende Kinder ein *besser
 
 
 \smallskip\  
+
+
+
+
+## Lösung zur Aufgabe [-@sec-AAA09] Krankenhausfälle {#sec-LAA09}
+
+:::: {.callout-tip}
+# a) Importieren Sie den SAS-Datensatz `Krankenhausfaelle.sas` in Ihre `R`-Session und überführen Sie ihn in eine `data.table` mit dem Namen `kh`. Machen Sie sich mit dem Datensatz vertraut.
+```{r}
+#| label: LoesungAA09SETUP
+#| echo: false
+kh <- as.data.table(haven::read_sas("data/Krankenhausfaelle.sas"))
+```
+
+```{r}
+#| label: LoesungAA09a
+#| eval: false
+# Lade Daten
+tmp <- haven::read_sas("https://www.produnis.de/tabletrainer/data/Krankenhausfaelle.sas")
+
+# überführe in data.table
+kh <- as.data.table(tmp)
+```
+
+
+```{r}
+#| label: LoesungAA09a2
+# anschauen
+str(kh)
+```
+
+::::
+
+\smallskip\ 
+
+
+:::: {.callout-tip}
+# b) Ersetzen Sie die Kodierung der dichotomen Variablen von 0 auf `nein` und von 1 auf `ja`. Passen Sie wo nötig das Skalenniveau der Variablen an. 
+
+```{r}
+#| label: LoesungAA09b
+# speichere die Namen der dichotomen Spalten in Hilfsobjekt
+spalten <- names(kh)[5:17]
+# kodiere dichotome Variablen in "ja/nein" um
+kh[, (spalten) := lapply(.SD, \(x) fifelse(x == 1, "ja", "nein")), 
+                         .SDcols = spalten]
+
+# Alle außer "Alter" müssen factor sein
+spalten <- names(kh)[-c(3:4)]
+# wandle in factor um
+kh[, (spalten) := lapply(.SD, factor), .SDcols = spalten]
+
+# anzeigen
+str(kh)
+```
+
+::::
+
+\smallskip\ 
 

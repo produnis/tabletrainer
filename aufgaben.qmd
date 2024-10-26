@@ -299,4 +299,54 @@ Weitere Informationen zur Auswertungsstrategie finden sich bei @kahn05.
 Lösung siehe @sec-LAA08
 :::
 
+\smallskip\ 
+
+\newpage
+
+## Aufgabe [-@sec-AAA09] Krankenhausfälle {#sec-AAA09}
+
+:::: {.callout-note appearance="simple"}
+Der Datensatz `Krankenhausfaelle.sas` (verfügbar unter <https://www.produnis.de/tabletrainer/data/Krankenhausfaelle.sas>) beinhaltet Daten von 26.561 Patienten, die stationär im Krankenhaus behandelt wurden.
+
+::: {.callout-caution}
+## Datensatzdokumentation
+
+  **Variable**   |   **Merkmal**   |   **Merkmalsausprägung** | 
+-----------------|---------------- |--------------------------|
+      `ID`       | laufende Nummer | numerisch                |
+    `Geschlecht` | Geschlecht      |  m/w (charakter)         |
+     `Alter`     |      Alter      |  numerisch               |
+`CHARLSON_SUM_G` |Charlson-Index Gewichtssumme|  numerisch    |  
+    `DIED`       |im KH verstorben |  0/1 (Nein/Ja)           |  
+`Herzdekomp`     |Herzdekompensationen        |  0/1 (Nein/Ja) |  
+    `Demenz`     |Demenz                      |  0/1 (Nein/Ja) |   
+`LUNG_CHRON`     |chron. Lungenkrankheit      |  0/1 (Nein/Ja) |  
+  `RHEUMA`       |rheumat. Erkrankungen       |  0/1 (Nein/Ja) |  
+ `Leber_L`       |leichte Lebererkrankung     |  0/1 (Nein/Ja) |  
+ `Leber_MS`      |schwere Lebererkrankung     |  0/1 (Nein/Ja) |  
+ `DM_KOMP`       |Diabetes mit Komplikationen |  0/1 (Nein/Ja) |  
+`PARA_HEMI`      |Paraplegie und Hemiplegie   |  0/1 (Nein/Ja) |  
+  `NIEREN`       |Nierenerkrankungen          |  0/1 (Nein/Ja) |  
+ `NEUBILD`       |    Neubildungen   |  0/1 (Nein/Ja)          |  
+ `CARC_MET`      |metastasierende Karzinome   |  0/1 (Nein/Ja) |  
+`AIDS_HIV`       |AIDS-HIV         |  0/1 (Nein/Ja)           |  
+
+Table: Datensatz: Krankenhausfälle mit Alter, Geschlecht, Nebendiagnosen nach Charlson,
+verstorben [ja/nein], n= 26561
+
+:::
+
+a) Importieren Sie den SAS-Datensatz `Krankenhausfaelle.sas` in Ihre `R`-Session und überführen Sie ihn in eine `data.table` mit dem Namen `kh`. Machen Sie sich mit dem Datensatz vertraut.
+b) Ersetzen Sie die Kodierung der dichotomen Variablen von 0 auf `nein` und von 1 auf `ja`. Passen Sie wo nötig das Skalenniveau der Variablen an. 
+
+::::
+
+
+::: {.callout-tip appearance="simple"}
+Lösung siehe @sec-LAA09
+:::
+
+
+\smallskip\  
+
 
