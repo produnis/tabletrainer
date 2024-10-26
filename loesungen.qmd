@@ -893,6 +893,90 @@ ts[ , .N, by=release_date] |>
 
 
 
+## Lösung zur Aufgabe [-@sec-AAA04b] Anscombe-Quartett {#sec-LAA04b}
+
+:::: {.callout-tip}
+# a) Laden Sie den Datensatz `anscombe` in Ihre R-Session und überführen Sie ihn in ein `data.table` Objekt mit dem Namen `ac`. 
+```{r}
+#| label: LoesungAA04Ba
+# aktiviere Datensatz
+data("anscombe")
+
+# überführe in data.table "ac"
+ac <- as.data.table(anscombe)
+```
+::::
+
+\smallskip\  
+
+
+:::: {.callout-tip}
+# b) Die Daten liegen als *breite Tabelle* (wide tabel) vor. Überführen Sie sie ins *long table* (tidy) Format, so dass Ihre data.table aus den Spalten `x`, `y`, und `Gruppe` besteht.
+
+Hierfür benutzen wir `patterns()`, um mittels *regular expression* alle Spalten auszuwählen, deren Namen mit `x` oder `y` anfangen.
+
+```{r}
+#| label: LoesungAA04Bb
+# tidy data Format
+lac <- melt(ac,
+  measure.vars = patterns("^x", "^y"),
+  value.name = c("x", "y"),           
+  variable.name = "Gruppe"            
+)
+```
+::::
+
+\smallskip\  
+
+
+:::: {.callout-tip}
+# c) Berechnen Sie für jede `Gruppe` die Mittelwerte, Standardabweichungen, Korrelations- und Regressionskoeffizienten von `x` und `y`, wobei Sie Ihre Ergebnisse auf 2 Stellen runden sollen. 
+
+
+```{r}
+#| label: LoesungAA04Bc
+# berechne Anscombe Werte
+lac[, .(MittelX = round(mean(x), 2),
+        StdabwX = round(sd(x), 2),
+        MittelY = round(mean(y), 2),
+        StdabwY = round(sd(y), 2),
+        Korrela = round(cor(x, y), 2),
+        Regress = round(lm(y~x)$coefficients[2], 2)
+        ), by = Gruppe]
+```
+
+::: {.callout-caution appearance="simple"}
+Jede Gruppe liefert die selben Werte!
+:::
+
+::::
+
+\smallskip\  
+
+
+:::: {.callout-tip}
+# d) Erzeugen Sie mittels `ggplot()` eine Punktwolke mit Regressionsgeraden für jede `Gruppe`, wobei alle 4 Diagramme mit einem Plotaufruf erzeugt werden sollen. 
+
+
+```{r}
+#| label: LoesungAA04Bd
+# plotten
+ggplot(lac, aes(x=x, y=y)) +
+  geom_point(color="darkblue")+
+  geom_smooth(method="lm", color="red", se=FALSE) +
+  facet_wrap(~Gruppe) +
+  ggtitle("Anscombe Quartett")
+```
+
+::: {.callout-caution appearance="simple"}
+Jede Gruppe liefert zwar die selben Kennwert, aber die Diagramme sehen nicht nur vollständig unterschiedlich aus, sie legen auch nahe, dass Ausreißer oder Messfehler die Ergebnisse verzerrt haben.
+:::
+
+::::
+
+\smallskip\  
+
+
 
 ## Lösung zur Aufgabe [-@sec-AAA05] Neugeborene {#sec-LAA05}
 
