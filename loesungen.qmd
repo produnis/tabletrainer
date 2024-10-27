@@ -996,7 +996,7 @@ load(url("https://www.produnis.de/tabletrainer/data/datasaurus.RData"))
 
 ```{r}
 #| label: LoesungAA04Bdatasaurus
-#| fig-height: 8
+#| fig-height: 7
 # plotten
 ggplot(datasaurus, aes(x=x, y=y)) +
   geom_point() +
@@ -1009,7 +1009,7 @@ ggplot(datasaurus, aes(x=x, y=y)) +
 
 
 
-## Lösung zur Aufgabe [-@sec-AAA05] Neugeborene {#sec-LAA05}
+## Lösung zur Aufgabe [-@sec-AAA05] Neugeborene: Rauchen {#sec-LAA05}
 
 :::: {.callout-tip}
 # a) Überführen Sie die Daten in ein `data.table`-Objekt mit dem Namen `ng`.
@@ -1631,7 +1631,7 @@ summary(fit0)$r.squared - summary(fit)$r.squared
 ```
 Durch Hinzunahme der Prädiktoren verbessert sich R^2^, aber nur minimal.
 
-::: {.callout-note appearance="default"}
+::: {.callout-caution appearance="default"}
 ## zusammengefasst
 Es scheint nur auf den ersten Blick so, als hätten rauchende Kinder ein *besseres* Lungevolumen als nicht-rauchende Kinder. Das liegt daran, dass 
 
@@ -1702,4 +1702,423 @@ str(kh)
 ::::
 
 \smallskip\ 
+
+
+:::: {.callout-tip}
+# c) Klassieren Sie das Alter der Probanden und plotten Sie die relativen Häufigkeiten
+
+Zunächst klassieren wir die Werte.
+```{r}
+#| label: LoesungAA09c
+# klassieren
+kh[, AlterK := cut(Alter, 
+                   breaks=c(seq(0, 90, 10), Inf), 
+                   ordered_result=TRUE,
+                   right=FALSE)]
+```
+
+Jetzt können wir mittels `geom_bar()` oder `geom_histogram()` die Diagramme erzeugen.
+```{r}
+#| label: LoesungAA09c2
+#| layout-ncol: 2
+
+# bereite Basisplot vor
+p <- ggplot(kh) +
+      xlab("Altersklassen") + 
+      ylab("relative Häufigkeiten") +
+      scale_y_continuous(labels = scales::percent)
+
+# plotten mit geom_bar
+p + geom_bar(aes(x=AlterK, 
+                 y=..prop.., group=1),
+             color="black", fill="tan3")
+
+# plotten mit geom_histogram
+# benötigt die unklassierten Daten (Alter statt AlterK)
+p + geom_histogram(aes(x=Alter,
+                       y=..count../sum(..count..)),
+                   breaks=c(seq(0, 90, 10), max(kh$Alter, na.rm=TRUE)+1), 
+                   closed="left",
+                   color="white", fill="tan1")
+
+```
+
+::::
+
+\smallskip\ 
+
+:::: {.callout-tip}
+# d) Klassieren Sie den Charlson-Index
+
+```{r}
+#| label: LoesungAA09d
+kh[, CharlsonK := cut(CHARLSON_SUM_G, 
+                      breaks=c(0, 1, 3, Inf), 
+                      ordered_result=TRUE,
+                      right=FALSE)]
+```
+
+::::
+
+\smallskip\ 
+
+
+
+
+## Lösung zur Aufgabe [-@sec-AAA10] Neugeborene: Gewicht {#sec-LAA10}
+
+:::: {.callout-tip}
+# a) Laden Sie den SPSS-Datensatz `Neugeborene.sav` in Ihre `R`-Session und überführen Sie ihn in eine `data.table` mit dem Namen `ng2`. 
+```{r}
+#| label: LoesungAA10SETUP
+#| echo: false
+ng2 <- as.data.table(haven::read_sav("data/Neugeborene.sav"))
+```
+
+```{r}
+#| label: LoesungAA10a
+#| eval: false
+# Lade Daten
+tmp <- haven::read_sav("https://www.produnis.de/tabletrainer/data/Neugeborene.sav")
+
+# überführe in data.table
+ng2 <- as.data.table(tmp)
+```
+
+
+```{r}
+#| label: LoesungAA10a2
+# anschauen
+str(ng2)
+```
+
+::::
+
+\smallskip\ 
+
+
+:::: {.callout-tip}
+# b) In einigen Variablen finden Sie die Merkmalsausprägungen 9, 99 oder 999. Diese stehen für fehlende Werte und müssen in `NA` umgewandelt werden.
+```{r}
+#| label: LoesungAA10b
+
+ng2[, (names(ng2)) := lapply(.SD, \(x) 
+                             fifelse(x %in% c(9, 99, 999), NA, x))]
+```
+::::
+
+\smallskip\  
+
+
+:::: {.callout-tip}
+# c) Wandeln Sie die Variable `SEX` in einen Factor mit den Levels "`männlich`" (statt 1) und "`weiblich`" (statt 2) um.
+```{r}
+#| label: LoesungAA10c
+
+ng2[, SEX := fifelse(SEX == 1, "männlich", "weiblich")]
+```
+::::
+
+\smallskip\  
+
+
+:::: {.callout-tip}
+# d) Bilden Sie aus der Variable Geburtsgewicht (`GEBGEWI`) eine neue Variable (`GEWIKAT`), welche das Geburtsgewicht den folgenden Kategorien zuordnet.
+```{r}
+#| label: LoesungAA10d
+ng2[, GEWIKAT := cut(GEBGEWI, 
+                     breaks=c(0, 2500, 3000, 3500, 4000, Inf),
+                     right=TRUE,
+                     ordered_result = TRUE)]
+```
+::::
+
+\smallskip\  
+
+:::: {.callout-tip}
+# e) Berechnen Sie zur Variablen Geburtsgewicht die Stichprobenmerkmale getrennt für Jungen und Mädchen.
+```{r}
+#| label: LoesungAA10e
+# alle Kennwerte liefert psych::describe()
+ng2[, psych::describe(GEBGEWI, quant=c(0.05, 0.25, 0.75, 0.95), 
+                      IQR=TRUE, check=F, skew=F) ,
+    by = SEX]
+```
+::::
+
+\smallskip\  
+
+
+
+:::: {.callout-tip}
+# f) Erstellen Sie Boxplots des Geburtsgewichts für alle Kinder, sowie separat für Jungen und Mädchen.
+```{r}
+#| label: LoesungAA10f
+#| layout-ncol: 2
+# Boxplot insgesamt
+ggplot(ng2, aes(y=GEBGEWI)) +
+  geom_boxplot(fill="thistle") +
+  ylab("Geburtsgewicht")
+# plotte nach Geschlecht getrennt
+ggplot(ng2, aes(y=GEBGEWI, fill=SEX)) +
+  geom_boxplot() +
+  ylab("Geburtsgewicht")
+
+```
+::::
+
+\smallskip\  
+
+
+:::: {.callout-tip}
+# g) Erstellen Sie zur Variable `GEWIKAT` je eine Häufigkeitstabelle und ein Säulendiagramm der relativen Häufigkeiten für a) die gesamte Stichprobe und b) unter Berücksichtigung des 2. Merkmals `SEX`
+```{r}
+#| label: LoesungAA10g
+# Häufigkeitstabelle insgesamt
+ng2[, jgsbook::freqTable(GEWIKAT)]
+
+# Säulendiagramm insgesamt
+ng2[, jgsbook::freqTable(GEWIKAT)] |>
+  ggplot(aes(x=Wert, y=Relativ)) +
+  geom_bar(stat="identity", fill="maroon3") +
+  ylab("relative Häufigkeit")
+
+
+# Häufigkeitstabelle Mädchen
+ng2[SEX=="weiblich", jgsbook::freqTable(GEWIKAT)]
+# Häufigkeitstabelle Jungen
+ng2[SEX=="männlich", jgsbook::freqTable(GEWIKAT)]
+
+# ggplot nach Geschlecht
+ggplot(ng2, aes(x=GEWIKAT, y=after_stat(prop), 
+                group=SEX, fill=SEX)) +
+  geom_bar(position="dodge")+
+  ylab("relative Häufigkeiten") +
+  scale_y_continuous(labels = scales::percent)
+```
+::::
+
+\smallskip\  
+
+
+
+:::: {.callout-tip}
+# h) Analysieren Sie den (linearen) Zusammenhang zwischen dem Geburtsgewicht [`GEBGEWI`] und der Körpergröße bei Geburt [`GEBGROE`].
+```{r}
+#| label: LoesungAA10h
+ng2[, cor(GEBGEWI, GEBGROE, use="complete.obs")]
+```
+::::
+
+\smallskip\  
+
+
+
+:::: {.callout-tip}
+# i) Einfluss des BMI
+```{r}
+#| label: LoesungAA10i
+#  Vater und Mutter BMI
+ng2[, let(VATBMI = VATGEW / (VATGROE/100)^2,
+          MUTBMI = MUTGEW / (MUTGROE/100)^2
+          )]
+
+# Zusammenhang BMI prüfen
+ng2[, cor(MUTBMI, VATBMI, use="complete.obs")]
+```
+Es gibt einen schwachen positiven Zusammenhang.
+```{r}
+#| label: LoesungAA10ib
+# MUTBMI auf GEBGEWI
+ng2[, cor(MUTBMI, GEBGEWI, use="complete.obs")]
+
+```
+Der Zusammenhang ist ebenso gering.
+::::
+
+\smallskip\  
+
+
+:::: {.callout-tip}
+# j) Bilden Sie aus der Variable Gewicht im Alter von 6 Wochen [`FUGEW`] und Größe im Alter von 6 Wochen [`FUGROE`] die Variable *Ponderal Index im Alter von 6 Wochen*. \newline Für Säuglinge lautet die Formel $PI = 100 \cdot \frac{g}{cm^3}$.
+```{r}
+#| label: LoesungAA10j
+ng2[, PI := 100* (FUGEW / FUGROE^3)]
+```
+::::
+
+\smallskip\  
+
+
+:::: {.callout-tip}
+# k) Bilden Sie eine neue Variable: Gewichtszunahme des Kindes von Geburt bis zum Alter von 6 Wochen.
+```{r}
+#| label: LoesungAA10k
+ng2[, GEWZUN6 := FUGEW-GEBGEWI]
+```
+::::
+
+\smallskip\  
+
+:::: {.callout-tip}
+# l) Bilden Sie eine neue Variable: Gewichtszunahme von Geburt bis zum Alter von 6 Wochen in % vom Geburtsgewicht.
+```{r}
+#| label: LoesungAA10l
+ng2[, GEWZUN6P := (100*FUGEW/GEBGEWI) - 100]
+```
+::::
+
+\smallskip\  
+
+
+
+:::: {.callout-tip}
+# m) Wie viele Kinder wurden gestillt ([`JSTILL`], (1,2))? Kodieren Sie zuvor die Variable um, so dass 1=`ja` und 2=`nein` wird.
+```{r}
+#| label: LoesungAA10m
+ng2[, JSTILL := fifelse(JSTILL==1, "ja", "nein")]
+ng2[, table(JSTILL)]
+```
+::::
+
+\smallskip\  
+
+
+
+:::: {.callout-tip}
+# n) Vergleichen Sie die gestillten und die nicht gestillten Kinder
+Vergleichen wir zunächst die Kennwerte.
+```{r}
+#| label: LoesungAA10n
+
+ng2[!is.na(JSTILL),
+    .(Gew6_mean = round(mean(FUGEW, na.rm = TRUE), 2),
+      Gew6_sd = round(sd(FUGEW, na.rm = TRUE), 2),
+      Gew6Zu_mean = round(mean(GEWZUN6, na.rm = TRUE), 2),
+      Gew6Zu_sd = round(sd(GEWZUN6, na.rm = TRUE), 2),
+      Gew6ZuP_mean = round(mean(GEWZUN6P, na.rm = TRUE), 2),
+      Gew6ZuP_sd = round(sd(GEWZUN6P, na.rm = TRUE), 2),
+      PI_mean = round(mean(PI, na.rm = TRUE), 2),
+      PI_sd = round(sd(PI, na.rm = TRUE), 2)
+     ), by = JSTILL]
+```
+
+Prüfen wir auf Signifikanz.
+```{r}
+#| label: LoesungAA10n2
+# welche Variablen sollen getestet werden?
+spalten <- c("FUGEW", "GEWZUN6", "GEWZUN6P", "PI")
+
+# Signifikanztests
+ng2[, lapply(.SD, function(x) wilcox.test(x ~ JSTILL)$p.value), 
+             .SDcols = spalten]
+
+```
+
+Alle Tests sind nicht signifikant. Es gibt keinen Unterschied zwischen gestillten und nicht-gestillten Kindern.
+::::
+
+\smallskip\  
+
+
+:::: {.callout-tip}
+# o) Bilden Sie eine neue Variable Schwangerschaftsdauer [`SCHDAUG`] in Gesamttagen, die Sie aus den Variablen Schwangerschaftsdauer in (ganzen) Wochen (`SCHDAUW`) und Schwangerschaftsrestdauer in Tagen (`SCHDAUT`) bilden. Hat die Schwangerschaftsdauer einen Einfluss auf das Geburtsgewicht?
+
+```{r}
+#| label: LoesungAA10o
+ng2[, SCHDAUG := 7*SCHDAUW + SCHDAUT]
+
+# Korrelation
+ng2[, cor(SCHDAUG, GEBGEWI, use = "complete.obs")]
+```
+Es gibt einen moderaten Zusammenhang zwischen Schwangerschaftsdauer und Geburtsgewicht.
+::::
+
+\smallskip\  
+
+
+:::: {.callout-tip}
+# p) Bilden Sie aus der Variable Nationalität der Mutter [`NATMUT`] eine neue Variable, welche die Nationalität der Mutter in 3 Kategorien zusammenfasst: `deutsch` (NATMUT=D), `türkisch` (NATMUT=TR) und `sonstige` (alle anderen, auch die ohne Angabe).
+
+```{r}
+#| label: LoesungAA10p
+ng2[, NATMUTK := factor(fifelse(NATMUT == "D", "deutsch",
+                        fifelse(NATMUT == "TR", "türkisch",
+                                         "sonstige")))]
+```
+
+::::
+
+\smallskip\  
+
+
+:::: {.callout-tip}
+# q) Unterscheiden sich die Kinder von Müttern der verschiedenen Nationalitäten hinsichtlich ihres Geburtsgewichts und ihres Ponderal Index im Alter von 6 Wochen?
+
+```{r}
+#| label: LoesungAA10q
+tuerk <- ng2[NATMUTK=="türkisch"]
+deuts <- ng2[NATMUTK=="deutsch"]
+sonst <- ng2[NATMUTK=="sonstige"]
+
+wilcox.test(tuerk$GEBGEWI, deuts$GEBGEWI)$p.value
+wilcox.test(tuerk$GEBGEWI, sonst$GEBGEWI)$p.value
+wilcox.test(deuts$GEBGEWI, sonst$GEBGEWI)$p.value
+
+```
+
+::::
+
+\smallskip\  
+
+
+:::: {.callout-tip}
+# r) Werden die Kinder von Müttern unterschiedlicher Nationalitäten gleich häufig gestillt?
+
+```{r}
+#| label: LoesungAA10r
+ng2[, xtabs(~ NATMUTK+JSTILL)]
+
+# Chiquadrat-Test
+ng2[, chisq.test(NATMUTK, JSTILL)]
+# exakter Fisher-Test
+ng2[, fisher.test(NATMUTK, JSTILL)]
+
+```
+Kinder unterschiedlicher Nationalitäten werden gleich häufig gestillt.
+::::
+
+\smallskip\  
+
+
+
+:::: {.callout-tip}
+# s) Vergleichen Sie das mittlere Geburtsgewicht mit der Referenz 3500g (t-Test für eine Stichprobe).
+
+```{r}
+#| label: LoesungAA10s
+# t-Test
+ng2[, t.test(GEBGEWI, mu=3500)]
+```
+Das Ergebnis ist signifikant. Das Geburtsgewicht in der Stichprobe weicht vom Referenzwert ab.
+::::
+
+\smallskip\  
+
+
+:::: {.callout-tip}
+# Vergleichen Sie das mittlere Geburtsgewicht von männlichen und weiblichen Neugeborenen  (t-Test für zwei Stichprobe).
+
+```{r}
+#| label: LoesungAA10t
+# t-Test
+ng2[, t.test(GEBGEWI ~ SEX) ]
+```
+Das Ergebnis ist nicht signifikant. Das Geburtsgewicht von Jungen und Mädchen unterscheidet sich nicht.
+::::
+
+\smallskip\  
+
+
+
 
