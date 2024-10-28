@@ -47,6 +47,7 @@ ol[type="a"] {
     padding-left: 1em;
 }
 
+
 ol[type="a"] > li {
     list-style: none;
     position: relative;
@@ -61,9 +62,18 @@ ol[type="a"] > li:before {
     text-align: right;
 }
 /*-----------------------------------------------------*/
+.custom-counter ol {
+  list-style-type: none; /* Entfernt die Standardnummerierung */
+  counter-reset: list-counter 13; /* Start bei 14 (0-basierter Zähler) */
+}
 
+.custom-counter ol > li {
+  counter-increment: list-counter;
+}
 
-
+.custom-counter ol > li::before {
+  content: counter(list-counter, lower-alpha) ". ";
+}
 
 /*-----------------------------------------------------*/
 /*---------END OF FILE --------------------------------*/
