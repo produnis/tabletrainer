@@ -62,9 +62,14 @@ ol[type="a"] > li:before {
     text-align: right;
 }
 /*-----------------------------------------------------*/
+
+/*------------------------------------------------------------*/
+/* Pakebreak-Hack für lange Liste innerhalb von callout-box   */
+/* https://github.com/quarto-dev/quarto-cli/discussions/11212 */
+/*------------------------------------------------------------*/
 .custom-counter ol {
-  list-style-type: none; /* Entfernt die Standardnummerierung */
-  counter-reset: list-counter 13; /* Start bei 14 (0-basierter Zähler) */
+  list-style-type: none;
+  counter-reset: list-counter 13;
 }
 
 .custom-counter ol > li {
@@ -74,6 +79,9 @@ ol[type="a"] > li:before {
 .custom-counter ol > li::before {
   content: counter(list-counter, lower-alpha) ". ";
 }
+/*------------------------------------------------------------*/
+
+
 
 /*-----------------------------------------------------*/
 /*---------END OF FILE --------------------------------*/
