@@ -35,6 +35,8 @@ contributes:
       template-partials:
         - title.tex
         - before-body.tex
+      filters:
+        - longlistpagebreak.lua
     html:
       lang: de
       rights: "Creative Commons BY-NC-SA 4.0"

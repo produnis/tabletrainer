@@ -331,9 +331,6 @@ Der Datensatz `Krankenhausfaelle.sas` (verfügbar unter <https://www.produnis.de
  `CARC_MET`      |metastasierende Karzinome   |  0/1 (Nein/Ja) |  
 `AIDS_HIV`       |AIDS-HIV         |  0/1 (Nein/Ja)           |  
 
-Table: Datensatz: Krankenhausfälle mit Alter, Geschlecht, Nebendiagnosen nach Charlson,
-verstorben [ja/nein], n= 26561
-
 :::
 
 a) Importieren Sie den SAS-Datensatz `Krankenhausfaelle.sas` in Ihre `R`-Session und überführen Sie ihn in eine `data.table` mit dem Namen `kh`. Machen Sie sich mit dem Datensatz vertraut.
@@ -363,8 +360,7 @@ Lösung siehe @sec-LAA09
 
 ## Aufgabe [-@sec-AAA10] Neugeborene: Gewicht {#sec-AAA10}
 
-
-:::: {.callout-note appearance="simple"}
+::::{.longlistcallout}
 
 Der Datensatz `Neugeborene.sav` (verfügbar unter <https://www.produnis.de/tabletrainer/data/Neugeborene.sav>) beinhaltet Daten von 120 Neugeborenen und ihrer Eltern.
 
@@ -397,13 +393,6 @@ j) Bilden Sie aus der Variable Gewicht im Alter von 6 Wochen [`FUGEW`] und Grö�
 k) Bilden Sie eine neue Variable: Gewichtszunahme des Kindes von Geburt bis zum Alter von 6 Wochen.
 l) Bilden Sie eine neue Variable: Gewichtszunahme von Geburt bis zum Alter von 6 Wochen in % vom Geburtsgewicht.
 m) Wie viele Kinder wurden gestillt ([`JSTILL`], (1,2))?
-::::
-
-\newpage
-
-:::::{.custom-counter}
-
-:::: {.callout-note appearance="minimal"}
 n) Vergleichen Sie die gestillten und die nicht gestillten Kinder
     + bezüglich ihres Gewichts im Alter von 6 Wochen,
     + ihrer Gewichtszunahme (Geburt – 6 Wochen),
@@ -416,8 +405,8 @@ q) Unterscheiden sich die Kinder von Müttern der verschiedenen Nationalitäten 
 r) Werden die Kinder von Müttern unterschiedlicher Nationalitäten gleich häufig gestillt?
 s) Vergleichen Sie das mittlere Geburtsgewicht mit der Referenz 3500g (t-Test für eine Stichprobe).
 t) Vergleichen Sie das mittlere Geburtsgewicht von männlichen und weiblichen Neugeborenen  (t-Test für zwei Stichprobe).
+
 ::::
-:::::
 
 
 ::: {.callout-tip appearance="simple"}
