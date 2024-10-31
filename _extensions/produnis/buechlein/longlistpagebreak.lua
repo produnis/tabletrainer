@@ -1,4 +1,4 @@
--- Lua Filter for Quarto: Insert specific HTML for longlistcallout sections
+-- Lua Filter for Quarto: fix long lists in callout boxes for LaTeX
 
 function Div(el)
   if el.classes:includes("longlistcallout") then
