@@ -305,7 +305,7 @@ Lösung siehe @sec-LAA08
 
 ## Aufgabe [-@sec-AAA09] Krankenhausfälle {#sec-AAA09}
 
-:::: {.callout-note appearance="simple"}
+::::{.longlistcallout}
 Der Datensatz `Krankenhausfaelle.sas` (verfügbar unter <https://www.produnis.de/tabletrainer/data/Krankenhausfaelle.sas>) beinhaltet Daten von 26.561 Patienten, die stationär im Krankenhaus behandelt wurden.
 
 ::: {.callout-caution}
@@ -361,7 +361,6 @@ Lösung siehe @sec-LAA09
 ## Aufgabe [-@sec-AAA10] Neugeborene: Gewicht {#sec-AAA10}
 
 ::::{.longlistcallout}
-
 Der Datensatz `Neugeborene.sav` (verfügbar unter <https://www.produnis.de/tabletrainer/data/Neugeborene.sav>) beinhaltet Daten von 120 Neugeborenen und ihrer Eltern.
 
 
