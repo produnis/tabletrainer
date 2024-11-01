@@ -1647,7 +1647,7 @@ Es scheint nur auf den ersten Blick so, als hätten rauchende Kinder ein *besser
 
 
 
-## Lösung zur Aufgabe [-@sec-AAA09] Krankenhausfälle {#sec-LAA09}
+## Lösung zur Aufgabe [-@sec-AAA09] Charlson-Index {#sec-LAA09}
 
 :::: {.callout-tip}
 # a) Importieren Sie den SAS-Datensatz `Krankenhausfaelle.sas` in Ihre `R`-Session und überführen Sie ihn in eine `data.table` mit dem Namen `kh`. Machen Sie sich mit dem Datensatz vertraut.

@@ -303,10 +303,10 @@ Lösung siehe @sec-LAA08
 
 \newpage
 
-## Aufgabe [-@sec-AAA09] Krankenhausfälle {#sec-AAA09}
+## Aufgabe [-@sec-AAA09] Charlson-Index {#sec-AAA09}
 
 ::::{.longlistcallout}
-Der Datensatz `Krankenhausfaelle.sas` (verfügbar unter <https://www.produnis.de/tabletrainer/data/Krankenhausfaelle.sas>) beinhaltet Daten von 26.561 Patienten, die stationär im Krankenhaus behandelt wurden.
+\textcolor{quarto-callout-note-color}\faInfo\ \  Der Datensatz `Krankenhausfaelle.sas` (verfügbar unter <https://www.produnis.de/tabletrainer/data/Krankenhausfaelle.sas>) beinhaltet den Charlson-Index^[siehe <https://flexikon.doccheck.com/de/Charlson-Komorbidit%C3%A4tsindex>] sowie weitere Daten von 26.561 Patienten, die stationär im Krankenhaus behandelt wurden.
 
 ::: {.callout-caution}
 ## Datensatzdokumentation
@@ -361,7 +361,7 @@ Lösung siehe @sec-LAA09
 ## Aufgabe [-@sec-AAA10] Neugeborene: Gewicht {#sec-AAA10}
 
 ::::{.longlistcallout}
-Der Datensatz `Neugeborene.sav` (verfügbar unter <https://www.produnis.de/tabletrainer/data/Neugeborene.sav>) beinhaltet Daten von 120 Neugeborenen und ihrer Eltern.
+\textcolor{quarto-callout-note-color}\faInfo\ \  Der Datensatz `Neugeborene.sav` (verfügbar unter <https://www.produnis.de/tabletrainer/data/Neugeborene.sav>) beinhaltet Daten von 120 Neugeborenen und ihrer Eltern.
 
 
 a) Laden Sie den SPSS-Datensatz `Neugeborene.sav` in Ihre `R`-Session und überführen Sie ihn in eine `data.table` mit dem Namen `ng2`. 
@@ -369,7 +369,7 @@ b) In einigen Variablen finden Sie die Merkmalsausprägungen 9, 99 oder 999. Die
 stehen für fehlende Werte und müssen in `NA` umgewandelt werden. Somit ist sichergestellt, dass `R` diese Werte in weiteren Auswertungen nicht berücksichtigt.
 c) Wandeln Sie die Variable `SEX` in einen Factor mit den Levels "`männlich`" (statt 1) und "`weiblich`" (statt 2) um.
 d) Bilden Sie aus der Variable Geburtsgewicht (`GEBGEWI`) eine neue Variable (`GEWIKAT`), welche das Geburtsgewicht den folgenden Kategorien zuordnet:
-    + $\le$ 2500g      
+    + $\le$ 2500g
     + $>$ 2500 bis 3000g 
     + $>$ 3000 bis 3500g 
     + $>$ 3500 bis 4000g 

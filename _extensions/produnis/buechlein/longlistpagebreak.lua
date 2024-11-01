@@ -7,7 +7,7 @@ function Div(el)
       table.insert(el.content, 1, pandoc.RawBlock("latex", [[
 \begin{tcolorbox}[enhanced jigsaw, rightrule=.15mm, breakable, arc=.35mm, leftrule=.75mm, bottomrule=.15mm, colframe=quarto-callout-note-color-frame, colback=white, opacityback=0, left=2mm, toprule=.15mm]
 %\begin{minipage}[t]{5.5mm}
-{\textcolor{quarto-callout-note-color}{\faInfo\ \ }}
+%{\textcolor{quarto-callout-note-color}{\faInfo\ \ }}
 %\end{minipage}%
       ]]))
       table.insert(el.content, pandoc.RawBlock("latex", [[
