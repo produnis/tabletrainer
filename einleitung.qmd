@@ -28,6 +28,10 @@ Sollten Sie neu in `R` sein, ist diese Aufgabensammlung wahrscheinlich nicht fü
 Wenn Sie schon erste Schritte in `R` und dem `tidyverse` gegangen sind, können Sie nun versuchen, Ihre Lösungsstrategien mit `{data.table}` umzusetzen. 
 Lassen Sie sich nicht entmutigen, `R` hat eine steile Lernkurve, und nur durch Übung kommen Sie weiter. Diese Sammlung möchte Sie auf Ihrem Weg begleiten und Sie befähigen, *typische* Aufgaben in `R` sicher mit `{data.table}`  zu meistern.
 
+::: {.callout-note appearance="simple"}
+Dieses Buch befindet sich aktuell noch im Aufbau. Es wird aber grundsätzlich - im Sinne eines *rolling release* - kontinuierlich um weitere Aufgaben ergänzt und erweitert. 
+:::
+
 Der Quelltext dieses Buchs ist bei GitHub verfügbar, siehe <https://github.com/produnis/tabletrainer>.
 
 

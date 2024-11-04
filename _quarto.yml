@@ -34,7 +34,7 @@ book:
       affiliation: Hochschule Niederrhein
       affiliation-url: https://www.hs-niederrhein.de
       orcid: 0000-0002-3634-7722
-  date: "2024-11-01"
+  date: "2024-11-03"
   date-format: "DD.MM.YYYY"
   cover-image: images/Titelbild.jpg
   favicon: images/favicon.ico
@@ -56,12 +56,8 @@ book:
     - index.qmd
     - einleitung.qmd
     - datatable.qmd
-    - part: "Aufgaben"
-      chapters:
-        - aufgaben.qmd
-    - part: "Lösungswege"
-      chapters:
-        - loesungen.qmd
+    - aufgaben.qmd
+    - loesungen.qmd
     - literatur.qmd
     - credits.qmd
   page-footer:
@@ -77,6 +73,7 @@ book:
       - icon: journal-richtext
         href: tabletraineR.epub
 
+number-sections: true
 bibliography: literatur.bib
 csl: apa-single-spaced.csl
 nocite: |

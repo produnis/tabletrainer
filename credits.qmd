@@ -1,4 +1,4 @@
-# Credits {.unnumbered}
+# Credits {#sec-credits .unnumbered}
 
 
 :::{layout-ncol=3 fig-env="figure*"}
@@ -24,3 +24,16 @@ Hochschule Niederrhein, Krefeld
 [joerg.grosseschlarmann@hs-niederrhein.de](mailto:joerg.grosseschlarmann@hs-niederrhein.de)
 
 <https://www.github.com/produnis/tabletrainer>
+
+
+\newpage
+
+## Changelog {#sec-changelog}
+
+
+- **2024-11-03**: Aufgabe [-@sec-AAA09] \textit{Charlson-Index} hinzugefügt
+- **2024-10-31**: Aufgabe [-@sec-AAA10] \textit{Neugeborene: Gewicht} hinzugefügt
+- **2024-10-28**: Aufgabe [-@sec-AAA04b] \textit{Anscombe-Quartett} hinzugefügt
+- **2024-10-25**: Aufgabe [-@sec-AAA08] \textit{Lungenkapazität} hinzugefügt
+- **2024-10-22**: Aufgabe [-@sec-AAA04] \textit{Taylor Swift} hinzugefügt
+- **2024-10-18**: Die erste Version geht mit 7 Aufgabenstellungen und @sec-einfuehrung an den Start

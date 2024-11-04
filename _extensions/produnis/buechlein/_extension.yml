@@ -16,7 +16,7 @@ contributes:
         - headsep=10mm
       number-sections: true # Nummerierung der Sektionen erzwingen
       lang: de
-      linkcolor: black
+      linkcolor: HSNRblue1
       link-citations: true
       bookmarks: true
       plainpages: false
@@ -28,7 +28,7 @@ contributes:
       code-line-numbers: false
       keep-tex: false # true # false
       execute:
-        error: true
+        error: true #rue
         warning: false
       include-in-header: in-header.tex   # header
       filters:

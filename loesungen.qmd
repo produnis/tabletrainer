@@ -1763,6 +1763,172 @@ kh[, CharlsonK := cut(CHARLSON_SUM_G,
 \smallskip\ 
 
 
+:::: {.callout-tip}
+# e) Welche Nebendiagnose kommt am häufigsten vor?
+
+Hierzu überführen wir die `data.table` ins *long table* Format, mit der neuen Variable `Nebendiagnose`, welche die konkreten Diagnosen enthält. Dazu bietet es sich an, die Spaltennamen, welche die Nebendiagnosen beinhalten, zunächst als eigenes Objekt abzuspeichern, um dann mittels `melt()` darauf zuzugreifen.
+
+```{r}
+#| label: LoesungAA09e
+# Die Spalten 6-17 enthalten Nebendiagnosen
+spalten <- names(kh)[6:17]
+
+# überführe ins tidy long table format
+melt(kh,
+     id.vars ="ID",
+     measure.vars = spalten,
+     variable.name = "Nebendiagnose",
+     value.name = "Wert"
+    ) |>
+  # nimm nur solche, die "ja" haben
+  _[Wert == "ja"] |>
+  # zähle N der Nebendiagnosen
+  _[, .N, by=Nebendiagnose] |>
+  # sortiere absteigend
+  _[order(N, decreasing = TRUE)]
+```
+
+Nierenerkrankungen kommen am häufigsten vor.
+::::
+
+\smallskip\  
+
+
+:::: {.callout-tip}
+# f) Wieviele Patienten ohne Nebendiagnosen sind enthalten?
+Es sind 12 Nebendiagnosen im Datensatz enthalten. Wenn der Datensatz wieder als *long table* vorliegt, können wir für jede `ID` zählen, wie oft `Wert` = `"nein"` ist. Bei 12 `nein` liegen demnach keine Nebendiagnosen vor.
+```{r}
+#| label: LoesungAA09f
+# Welche Spalten enthalten Nebendiagnosen
+spalten <- names(kh)[6:17]
+
+# überführe ins tidy long table format
+melt(kh,
+     id.vars ="ID",
+     measure.vars = spalten,
+     variable.name = "Nebendiagnose",
+     value.name = "Wert"
+    ) |>
+  # zähle für jede "ID" wie oft "nein" vorkommt
+  _[, .(nein=sum(Wert=="nein")) , by=ID] |>
+  # wer hat 12x nein?
+  _[nein==12] |>
+  # Anzahl anzeigen
+  nrow()
+```
+17916 Patienten haben keine Nebendiagnose.
+::::
+
+
+\smallskip\  
+
+
+:::: {.callout-tip}
+# g) Erzeugen Sie eine neue Spalte `"KEINE"` in der `data.table`, die in jeder Reihe den Wert `"nein"` hat. Überschreiben Sie diesen Wert für solche Patienten, die keine Nebendiagnosen haben, mit dem Wert `"ja"`. 
+```{r}
+#| label: LoesungAA09g
+# schreibe neue Spalte "KEINE" mit Wert "nein"
+kh[, KEINE := "nein"]
+
+# Welche Spalten enthalten Nebendiagnosen
+spalten <- names(kh)[6:17]
+
+# Überführe in long table
+help <- melt(kh,
+             id.vars = "ID",
+             measure.vars = spalten,
+             variable.name = "Nebendiagnose",
+             value.name = "Wert"
+            ) |>
+      # zähle für jede "ID" wie oft "nein" vorkommt
+      _[, .(nein=sum(Wert=="nein")) , by=ID] |>
+      # wer hat 12x nein?
+      _[nein==12]
+
+# überschreibe "KEINE" in passenden Zeilen mit "ja"
+kh[ID %in% help$ID, KEINE := "ja"]
+```
+
+::::
+
+
+\smallskip\  
+
+
+:::: {.callout-tip}
+# h) Erstellen Sie eine Kreuztabelle der Nebendiagnosen und der Variable `DIED` in Prozentzahlen.
+
+Beginnen wir mit der Tabelle bezogen auf das Gesamt-N. 
+Hierzu überführen wir wie oben unter *e)* die `data.table` ins *long table* Format, mit der neuen Variable `Nebendiagnose`, welche die konkreten Diagnosen enthält. Wie oben erzeugen wir dafür ein Objekt `spalten`, welches die Spaltennamen der Nebendiagnosen (inklusive `"KEINE"`) enthält.
+
+Da wir das long table Objekt mehrfach gebrauchen können, speichern wir es als `helper` ab.
+
+```{r}
+#| label: LoesungAA09h
+# welche Spalten enthalten Nebendiagnosen?
+spalten <- c(names(kh)[6:17], "KEINE")
+# überführe ins tidy long table format
+# und speichere als hilfsobjekt
+helper <- melt(kh,
+               id.vars = c("ID", "DIED"), 
+               measure.vars = spalten,
+               variable.name = "Nebendiagnose",
+               value.name = "Wert"
+               ) |>
+  # nimm nur solche, die "ja" haben
+  _[Wert == "ja"]
+
+# erzeuge prop.table() in "echten" Prozent
+helper[, round(prop.table(table(Nebendiagnose, DIED))*100, 2)]
+```
+
+
+Soll die Tabelle zB nach "verstorben: ja" sortiert werden, müssen wir die Tabelle in ein `data.table` Objekt umwandeln und dann sortieren. Auf diese Weise kann auch das N der Nebendiagnosen an die Tabelle angefügt werden. Die Berechnung von N der Nebendiagnosen findet in einem gesonderten Objekt `khN` statt, welches dann eingebunden werden kann.
+
+```{r}
+#| label: LoesungAA09h2
+# berechne N für jede Nebendiagnose
+khN <- helper[, .N, by = Nebendiagnose]
+
+# erzeuge prop.table() in "echten" Prozent
+helper[, round(prop.table(table(Nebendiagnose, DIED))*100, 2)] |>
+  # table in data.table umwandeln
+  as.data.table() |>
+  # erzeuge breite Tabelle
+  dcast(Nebendiagnose ~ DIED, value.var = "N") |>
+  # füge N der Nebendiagnosen hinzu
+  _[khN, on = .(Nebendiagnose)] [] |>
+  # sortiere nach "verstorben: ja"
+  _[order(ja, decreasing = TRUE)]
+```
+
+
+
+Für die zweite Tabelle gehen wir ähnlich vor. Mittels `melt()` erzeugen wir eine *long list* der Nebendiagnosen (diese liegt bereits als `helper` vor). Mit dieser können wir `prop.table()` pro Nebendiagsnose aufrufen. Das Ergebnis kann dann mittels `dcast()` zurück in eine breite Tabelle überführt werden. Damit wir nach "verstorben: ja" sortieren können, wandeln wir die Werte in `numeric` um. Auch hier können wir auf das Objekt `khN` zurückgreifen, um das N der Nebendiagnose einzufügen.
+
+```{r}
+#| label: LoesungAA09h3
+# erzeuge prop.table() in "echten" Prozent für Jede Nebendiagnose
+helper[, round(prop.table(table(DIED))*100, 2), by = Nebendiagnose] |>
+  # füge Hilfsvariable "verstorben" ein
+  _[, verstorben := rep(c("ja", "nein"), length.out = .N)] |>
+  # überführe zurück in "breite" Tabelle
+  dcast(Nebendiagnose ~ verstorben, value.var = "V1") |>
+  # wandle in numeric um, damit sortiert werden kann
+  _[, let(ja = as.numeric(ja),
+          nein = as.numeric(nein),
+          # N der Nebendiagnosen einfügen
+          N = khN$N)] |>
+  # sortiere nach "verstorben: ja"
+  _[order(ja, decreasing = TRUE)]
+
+```
+
+::::
+
+\smallskip\ 
+
+
 
 
 ## Lösung zur Aufgabe [-@sec-AAA10] Neugeborene: Gewicht {#sec-LAA10}
