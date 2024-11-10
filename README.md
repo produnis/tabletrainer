@@ -1,6 +1,9 @@
 # table traineR
 
-<img src="https://i.imgur.com/Tu5jarn.png" width="200">
+<img src="https://i.imgur.com/NwhHC2V.png" width="200">
+
+This is the repository of the "table traineR," a free exercise book for the R package `{data.table}`. This book is in German language.
+
 
 
 Ein freies Übungsbuch für das R-Paket `{data.table}`
